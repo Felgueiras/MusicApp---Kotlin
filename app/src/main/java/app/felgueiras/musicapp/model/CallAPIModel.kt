@@ -1,10 +1,13 @@
 package app.felgueiras.musicapp.model
 
 import android.util.Log
+import app.felgueiras.musicapp.Constants
+import app.felgueiras.musicapp.api.Artist
 import app.felgueiras.musicapp.api.LastFMRESTClient
 import app.felgueiras.musicapp.api.LastFMResponse
 import app.felgueiras.musicapp.api.Tracks
 import app.felgueiras.musicapp.presenter.SongsListPresenter
+import app.felgueiras.musicapp.presenter.TrackDetailPresenter
 import okhttp3.OkHttpClient
 import retrofit2.Call
 import retrofit2.Callback
@@ -18,7 +21,7 @@ class CallAPIModel {
     val API_BASE_URL = "http://ws.audioscrobbler.com/"
 
 
-    fun getSongsList(presenter: SongsListPresenter) {
+    fun makeAPICall(presenter: Object?, parameter: String, callType: String) {
 
         val retrofit: Retrofit
 
@@ -34,31 +37,41 @@ class CallAPIModel {
 
         val client = retrofit.create(LastFMRESTClient::class.java)
 
-        // Fetch a list of the Github repositories.
-        // TODO: parametrize calls
-        val call = client.getSongsByCountry(country = "Portugal")
-//        val call = client.getArtistInfo()
-        Log.d("Call", call.request().url().toString())
+        var call: Call<LastFMResponse>? = null
+        when (callType) {
+            Constants.CALL_SONGS -> call = client.getSongsByCountry(country = parameter)
+            Constants.CALL_ARTIST -> call = client.getArtistInfo(mbid = parameter)
+        }
 
-        // Execute the call asynchronously. Get a positive or negative callback.
+        Log.d("Call", call!!.request().url().toString())
+
+        // Execute the call asynchronously
         call.enqueue(object : Callback<LastFMResponse> {
             override fun onResponse(call: Call<LastFMResponse>, response: Response<LastFMResponse>) {
-                // The network call was a success and we got a response
 
+                // The network call was a success and we got a response
                 val resp = response.body()
 
-                // get reviews/books on this shelf
-                val tracks: Tracks = resp!!.tracks
-                val track = tracks.track
+                when (callType) {
+                    Constants.CALL_SONGS -> {
+                        val tracks: Tracks = resp!!.tracks
+                        val track = tracks.track
 
-//                val artist: Artist = resp!!.artist
-//                Log.d("artist", artist.name)
-//                artist.image.forEach { i ->
-//                    Log.d("track", i.size + "-" + i.text)
-//                }
+                        val pres = presenter as SongsListPresenter
+                        pres.displaySongs(track)
+                    }
+                    Constants.CALL_ARTIST -> {
+                        val artist: Artist = resp!!.artist
+                        Log.d("artist", artist.name)
+                        artist.image!!.forEach { i ->
+                            Log.d("track", i.size + "-" + i.text)
+                        }
 
-                // TODO - call presenter
-                presenter.displaySongs(track)
+                        val pres = presenter as TrackDetailPresenter
+                        pres.displayArtistDetails(artist)
+                    }
+                }
+
             }
 
 

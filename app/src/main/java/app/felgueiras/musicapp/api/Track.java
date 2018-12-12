@@ -4,6 +4,7 @@ import org.simpleframework.xml.Element;
 import org.simpleframework.xml.Root;
 
 import java.io.Serializable;
+import java.util.List;
 
 /**
  * Created by felguiras on 27/09/2017.
@@ -17,6 +18,15 @@ public class Track implements Serializable {
 
     @Element(name = "artist")
     public Artist artist;
+
+    @Element(name = "duration")
+    public int duration;
+
+    @Element(name = "listener")
+    public int listener;
+
+    @Element(name = "image")
+    public List<Artist.ImageInfo> image;
 
 //    public String getmChannel() {
 //        return name;

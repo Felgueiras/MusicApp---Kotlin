@@ -1,20 +1,14 @@
 package app.felgueiras.musicapp.view
 
 import android.content.Context
+import android.content.Intent
 import android.support.v7.widget.RecyclerView
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
-import app.felgueiras.musicapp.Constants
-import app.felgueiras.musicapp.api.Track
-
 import app.felgueiras.musicapp.R
-
-
-import butterknife.BindView
-import butterknife.ButterKnife
+import app.felgueiras.musicapp.api.Track
 
 
 /**
@@ -53,11 +47,11 @@ internal class SongsListAdapter(private val tracks: MutableList<Track>, private 
             artist = view.findViewById(R.id.artistName)
 
             view.setOnClickListener {
-//                val intent = Intent(context, BookDetailView::class.java)
-//                intent.putExtra(BookSingleView.BOOK, track)
-//                context.startActivity(intent)
                 // TODO - navigate to other activity
-                Log.d(Constants.TAG, "clicked")
+                val intent = Intent(context, DetailActivity::class.java)
+                intent.putExtra("TRACK", track)
+                context.startActivity(intent)
+//                Log.d(Constants.TAG, "clicked")
 //                val f = (view.context as DrawerActivity).fragmentManager.findFragmentById(R.id.current_fragment)
 //                val newFragment:Fragment = BookDetailView.Companion.newInstance(1, track)
 //                (view.context as DrawerActivity).fragmentManager.beginTransaction()

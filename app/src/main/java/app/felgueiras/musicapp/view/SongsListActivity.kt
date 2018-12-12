@@ -6,23 +6,30 @@ import android.support.v7.widget.DividerItemDecoration
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.util.Log
+import android.view.View
+import android.widget.ProgressBar
 import app.felgueiras.musicapp.Constants
 import app.felgueiras.musicapp.R
 import app.felgueiras.musicapp.api.Track
 import app.felgueiras.musicapp.presenter.SongsListPresenter
-import butterknife.BindView
 
-class APIActivity : AppCompatActivity(), SongsListPresenter.SongsList {
+class SongsListActivity : AppCompatActivity(), SongsListPresenter.SongsList {
 
     // views
-//    @BindView(R.id.songsList)
     lateinit var songsList: RecyclerView
+    lateinit var progress: ProgressBar
 
     private var presenter: SongsListPresenter? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_api)
+
+        // TODO - get country from bundle
+        var country = "Portugal"
+
+        progress = findViewById(R.id.progressBar)
+        progress.visibility = View.VISIBLE
 
         songsList = findViewById(R.id.songsList)
         songsList.layoutManager = LinearLayoutManager(this)
@@ -32,18 +39,21 @@ class APIActivity : AppCompatActivity(), SongsListPresenter.SongsList {
 
         presenter = SongsListPresenter(this)
 
+        // TODO - loading indicator
+
         // call API
-        presenter!!.getSongsList()
+        presenter!!.getSongsList(country)
 
 
     }
 
     override fun displaySongs(tracks: MutableList<Track>) {
-        Log.d(Constants.TAG, "displaying songs: " + tracks.size)
+        Log.d(Constants.TAG, "displaying songs: " + tracks[0].image[0].text)
 
         val adapter = SongsListAdapter(tracks, baseContext)
         songsList.adapter = adapter
         adapter.notifyDataSetChanged()
+        progress.visibility = View.GONE
     }
 
 }
