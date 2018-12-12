@@ -1,15 +1,10 @@
-package app.felgueiras.musicapp
+package app.felgueiras.musicapp.model
 
-import android.os.Bundle
-import android.support.design.widget.Snackbar
-import android.support.v7.app.AppCompatActivity;
 import android.util.Log
-import app.felgueiras.musicapp.api.Artist
 import app.felgueiras.musicapp.api.LastFMRESTClient
 import app.felgueiras.musicapp.api.LastFMResponse
 import app.felgueiras.musicapp.api.Tracks
-
-import kotlinx.android.synthetic.main.activity_api.*
+import app.felgueiras.musicapp.presenter.SongsListPresenter
 import okhttp3.OkHttpClient
 import retrofit2.Call
 import retrofit2.Callback
@@ -17,20 +12,14 @@ import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
-class APIActivity : AppCompatActivity() {
+// TODO - Singleton
+class CallAPIModel {
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_api)
-        setSupportActionBar(toolbar)
+    val API_BASE_URL = "http://ws.audioscrobbler.com/"
 
-        fab.setOnClickListener { view ->
-            Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                .setAction("Action", null).show()
-        }
 
-        // TODO: call API
-        val API_BASE_URL = "http://ws.audioscrobbler.com/"
+    fun getSongsList(presenter: SongsListPresenter) {
+
         val retrofit: Retrofit
 
         val httpClient = OkHttpClient.Builder()
@@ -41,15 +30,9 @@ class APIActivity : AppCompatActivity() {
                 GsonConverterFactory.create()
             )
 
-        retrofit = builder
-            .client(
-                httpClient.build()
-            )
-            .build()
+        retrofit = builder.client(httpClient.build()).build()
 
         val client = retrofit.create(LastFMRESTClient::class.java)
-
-//        DoBackgroundNetTask(null).execute()
 
         // Fetch a list of the Github repositories.
         // TODO: parametrize calls
@@ -68,14 +51,14 @@ class APIActivity : AppCompatActivity() {
                 val tracks: Tracks = resp!!.tracks
                 val track = tracks.track
 
-                track.forEach { t ->
-                    Log.d("track", t.name +"-"+t.artist.name)
-                }
 //                val artist: Artist = resp!!.artist
 //                Log.d("artist", artist.name)
 //                artist.image.forEach { i ->
 //                    Log.d("track", i.size + "-" + i.text)
 //                }
+
+                // TODO - call presenter
+                presenter.displaySongs(track)
             }
 
 
@@ -85,6 +68,7 @@ class APIActivity : AppCompatActivity() {
                 Log.d("RESTerr", t.toString())
             }
         })
-    }
 
+
+    }
 }

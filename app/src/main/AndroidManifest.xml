@@ -20,7 +20,7 @@
         <activity android:name=".MainActivity">
         </activity>
         <activity
-                android:name=".APIActivity"
+                android:name=".view.APIActivity"
                 android:label="@string/title_activity_api"
                 android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
@@ -28,6 +28,11 @@
 
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
+        </activity>
+        <activity
+                android:name=".view.DetailActivity"
+                android:label="@string/title_activity_detail"
+                android:theme="@style/AppTheme.NoActionBar">
         </activity>
     </application>
 
