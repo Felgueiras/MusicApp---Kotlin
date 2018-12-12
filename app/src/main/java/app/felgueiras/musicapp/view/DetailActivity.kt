@@ -1,5 +1,6 @@
 package app.felgueiras.musicapp.view
 
+import android.content.Intent
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.util.Log
@@ -13,11 +14,14 @@ import kotlinx.android.synthetic.main.activity_detail.*
 
 class DetailActivity : AppCompatActivity(), TrackDetailPresenter.TrackDetails {
 
-
-
+    lateinit var artist: Artist
+    lateinit var track: Track
 
     override fun displayArtistInfo(artist: Artist) {
-        // TODO - pass info to View
+
+        this.artist = artist
+
+        // TODO - pass all info to View
         Log.d(Constants.TAG, "" + artist.bio.content)
         artistNameDetail.text = artist.name
         bio.text = artist.bio.summary
@@ -34,11 +38,8 @@ class DetailActivity : AppCompatActivity(), TrackDetailPresenter.TrackDetails {
 
         // Get the Intent that started this activity and extract the string
         val intent = intent
-        val track: Track = intent.getSerializableExtra("TRACK") as Track
+        track = intent.getSerializableExtra("TRACK") as Track
         Log.d(Constants.TAG, track.name)
-
-        // TODO - make another call
-        // TODO - artist info
 
         presenter = TrackDetailPresenter(this)
 
@@ -46,6 +47,16 @@ class DetailActivity : AppCompatActivity(), TrackDetailPresenter.TrackDetails {
 
         // call API
         presenter!!.getArtistDetail(track.artist.mbid)
+
+        sendData.setOnClickListener {
+            // TODO - set text to send
+            val sendIntent: Intent = Intent().apply {
+                action = Intent.ACTION_SEND
+                putExtra(Intent.EXTRA_TEXT, artist.toString() + track.toString())
+                type = "text/plain"
+            }
+            startActivity(sendIntent)
+        }
     }
 
 

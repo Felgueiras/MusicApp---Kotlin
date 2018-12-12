@@ -13,6 +13,10 @@ import java.io.Serializable
 @Root(name = "artist", strict = false)
 class Artist : Serializable {
 
+    override fun toString(): String {
+        return "Artist: ${name!!}\nBio: ${bio.summary}"
+    }
+
     var name: String? = null
 
     lateinit var mbid: String

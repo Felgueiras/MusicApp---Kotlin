@@ -11,17 +11,14 @@ import android.util.Log
 import java.io.IOException
 import java.util.*
 
-class FetchAddressIntentService : IntentService {
-    /**
-     * Creates an IntentService.  Invoked by your subclass's constructor.
-     *
-     * @param name Used to name the worker thread, important only for debugging.
-     */
-    constructor(name: String) : super(name) {}
+class FetchAddressIntentService : IntentService("FetchAddressIntentService") {
 
-    private val TAG: String = "myTag"
+    private var receiver: ResultReceiver? = null
 
-    constructor() : super("") {}
+    private fun deliverResultToReceiver(resultCode: Int, message: String) {
+        val bundle = Bundle().apply { putString(Constants.RESULT_DATA_KEY, message) }
+        receiver?.send(resultCode, bundle)
+    }
 
     override fun onHandleIntent(intent: Intent?) {
         intent ?: return
@@ -30,6 +27,7 @@ class FetchAddressIntentService : IntentService {
 
         // Get the location passed to this service through an extra.
         val location = intent.getParcelableExtra<Location>(Constants.LOCATION_DATA_EXTRA)
+        receiver = intent.getParcelableExtra<MainActivity.AddressResultReceiver>(Constants.RECEIVER)
 
 
         val geocoder = Geocoder(this, Locale.getDefault())
@@ -46,12 +44,12 @@ class FetchAddressIntentService : IntentService {
         } catch (ioException: IOException) {
             // Catch network or other I/O problems.
             errorMessage = "service not available"
-            Log.e(TAG, errorMessage, ioException)
+            Log.e(Constants.TAG, errorMessage, ioException)
         } catch (illegalArgumentException: IllegalArgumentException) {
             // Catch invalid latitude or longitude values.
             errorMessage = "invalid lat long"
             Log.e(
-                TAG, "$errorMessage. Latitude = $location.latitude , " +
+                Constants.TAG, "$errorMessage. Latitude = $location.latitude , " +
                         "Longitude =  $location.longitude", illegalArgumentException
             )
         }
@@ -60,7 +58,7 @@ class FetchAddressIntentService : IntentService {
         if (addresses.isEmpty()) {
             if (errorMessage.isEmpty()) {
                 errorMessage = "no address found"
-                Log.e(TAG, errorMessage)
+                Log.e(Constants.TAG, errorMessage)
             }
             deliverResultToReceiver(Constants.FAILURE_RESULT, errorMessage)
         } else {
@@ -70,20 +68,13 @@ class FetchAddressIntentService : IntentService {
             val addressFragments = with(address) {
                 (0..maxAddressLineIndex).map { getAddressLine(it) }
             }
-            val myAddress: Address = addresses[0]
-            Log.d(TAG, "You are in " + myAddress.countryName)
+            val country: String = addresses[0].countryName
             deliverResultToReceiver(
                 Constants.SUCCESS_RESULT,
-                addressFragments.joinToString(separator = "\n")
+                country
             )
         }
     }
 
-    private var receiver: ResultReceiver? = null
-
-    private fun deliverResultToReceiver(resultCode: Int, message: String) {
-        val bundle = Bundle().apply { putString(Constants.RESULT_DATA_KEY, message) }
-        receiver?.send(resultCode, bundle)
-    }
 
 }

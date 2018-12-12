@@ -7,7 +7,7 @@ import app.felgueiras.musicapp.model.CallAPIModel
 
 class SongsListPresenter(private val view: SongsList) {
 
-    private val model = CallAPIModel()
+    private val model = CallAPIModel
 
 
     fun getSongsList(country: String) {

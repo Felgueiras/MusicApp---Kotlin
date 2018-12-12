@@ -7,7 +7,7 @@ import app.felgueiras.musicapp.view.DetailActivity
 
 class TrackDetailPresenter(private val view: DetailActivity) {
 
-    private val model = CallAPIModel()
+    private val model = CallAPIModel
 
 
     fun getArtistDetail(mbid: String) {

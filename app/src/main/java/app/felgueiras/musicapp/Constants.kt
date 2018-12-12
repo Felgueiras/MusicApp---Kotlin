@@ -9,6 +9,9 @@ object Constants {
     val LOCATION_DATA_EXTRA = "$PACKAGE_NAME.LOCATION_DATA_EXTRA"
     val TAG = "MYTAG"
 
+    // APIs
     val CALL_SONGS = "CALL_SONGS"
     val CALL_ARTIST = "CALL_ARTIST"
+
+    val COUNTRY = "COUNTRY"
 }

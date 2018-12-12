@@ -25,21 +25,21 @@ class SongsListActivity : AppCompatActivity(), SongsListPresenter.SongsList {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_api)
 
-        // TODO - get country from bundle
-        var country = "Portugal"
+        // get country from bundle
+        var country = intent.getSerializableExtra(Constants.COUNTRY) as String
 
         progress = findViewById(R.id.progressBar)
         progress.visibility = View.VISIBLE
 
         songsList = findViewById(R.id.songsList)
         songsList.layoutManager = LinearLayoutManager(this)
-        val dividerItemDecoration = DividerItemDecoration(songsList.getContext(),
-            (songsList.layoutManager as LinearLayoutManager).getOrientation())
+        val dividerItemDecoration = DividerItemDecoration(
+            songsList.getContext(),
+            (songsList.layoutManager as LinearLayoutManager).getOrientation()
+        )
         songsList.addItemDecoration(dividerItemDecoration)
 
         presenter = SongsListPresenter(this)
-
-        // TODO - loading indicator
 
         // call API
         presenter!!.getSongsList(country)
@@ -50,7 +50,10 @@ class SongsListActivity : AppCompatActivity(), SongsListPresenter.SongsList {
     override fun displaySongs(tracks: MutableList<Track>) {
         Log.d(Constants.TAG, "displaying songs: " + tracks[0].image[0].text)
 
-        val adapter = SongsListAdapter(tracks, baseContext)
+        // sort tracks by name
+        var sortedList = tracks.sortedWith(compareBy({ it.name }))
+
+        val adapter = SongsListAdapter(sortedList, baseContext)
         songsList.adapter = adapter
         adapter.notifyDataSetChanged()
         progress.visibility = View.GONE

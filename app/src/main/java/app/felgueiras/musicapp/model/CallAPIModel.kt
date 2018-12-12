@@ -15,8 +15,10 @@ import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
-// TODO - Singleton
-class CallAPIModel {
+/**
+ * Singleton class responsible making calls to the Last.fm API
+ */
+object CallAPIModel {
 
     val API_BASE_URL = "http://ws.audioscrobbler.com/"
 

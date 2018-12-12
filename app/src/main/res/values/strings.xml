@@ -2,4 +2,8 @@
     <string name="app_name">MusicApp</string>
     <string name="title_activity_api">APIActivity</string>
     <string name="title_activity_detail">DetailActivity</string>
+    <!--location disabled dialog-->
+    <string name="location_disabled">GPS network not enabled, what do you want to do?</string>
+    <string name="open_location_settings">Open location settings</string>
+    <string name="close">Close app</string>
 </resources>

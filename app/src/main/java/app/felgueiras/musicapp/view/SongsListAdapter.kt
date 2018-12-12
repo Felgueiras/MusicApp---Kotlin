@@ -14,10 +14,10 @@ import app.felgueiras.musicapp.api.Track
 /**
  * Created by felguiras on 15/09/2017.
  */
-internal class SongsListAdapter(private val tracks: MutableList<Track>, private val context: Context) :
+internal class SongsListAdapter(private val tracks: List<Track>, private val context: Context) :
     RecyclerView.Adapter<SongsListAdapter.BookInListHolder>() {
 
-    var songs: MutableList<Track>? = tracks
+    var songs: List<Track>? = tracks
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BookInListHolder {
         val inflatedView = LayoutInflater.from(parent.context)
@@ -38,16 +38,12 @@ internal class SongsListAdapter(private val tracks: MutableList<Track>, private 
     class BookInListHolder(view: View, private val context: Context) : RecyclerView.ViewHolder(view) {
 
         lateinit var track: Track
-        var title: TextView
-        var artist: TextView
+        var title: TextView = view.findViewById(R.id.trackName)
+        var artist: TextView = view.findViewById(R.id.artistName)
 
         init {
 
-            title = view.findViewById(R.id.trackName)
-            artist = view.findViewById(R.id.artistName)
-
             view.setOnClickListener {
-                // TODO - navigate to other activity
                 val intent = Intent(context, DetailActivity::class.java)
                 intent.putExtra("TRACK", track)
                 context.startActivity(intent)
