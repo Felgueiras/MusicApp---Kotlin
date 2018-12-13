@@ -12,7 +12,7 @@ import app.felgueiras.musicapp.api.Track
 
 
 /**
- * Created by felguiras on 15/09/2017.
+ * Adapter:
  */
 internal class SongsListAdapter(private val tracks: List<Track>, private val context: Context) :
     RecyclerView.Adapter<SongsListAdapter.BookInListHolder>() {

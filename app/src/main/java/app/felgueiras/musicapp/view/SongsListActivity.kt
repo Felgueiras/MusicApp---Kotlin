@@ -4,64 +4,55 @@ import android.os.Bundle
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DividerItemDecoration
 import android.support.v7.widget.LinearLayoutManager
-import android.support.v7.widget.RecyclerView
 import android.util.Log
 import android.view.View
-import android.widget.ProgressBar
 import app.felgueiras.musicapp.Constants
 import app.felgueiras.musicapp.R
 import app.felgueiras.musicapp.api.Track
 import app.felgueiras.musicapp.contracts.SongsListContract
 import app.felgueiras.musicapp.presenter.SongsListPresenter
+import kotlinx.android.synthetic.main.activity_songs_list.*
 
 class SongsListActivity : AppCompatActivity(), SongsListContract.View {
 
-    // views
-    lateinit var songsList: RecyclerView
-    lateinit var progress: ProgressBar
-
-    private var presenter: SongsListContract.Presenter? = null
+    private lateinit var presenter: SongsListContract.Presenter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_api)
-
+        setContentView(R.layout.activity_songs_list)
 
         // get country from bundle
-        var country = intent.getSerializableExtra(Constants.COUNTRY) as String
+        val country = intent.getSerializableExtra(Constants.COUNTRY) as String
 
         // set title
-        setTitle("Top ${country}")
+        title = "Top $country"
 
-        progress = findViewById(R.id.progressBar)
-        progress.visibility = View.VISIBLE
+        // hide progress bar
+        progressBar.visibility = View.VISIBLE
 
-        songsList = findViewById(R.id.songsList)
+        // build songsList RecyclerView
         songsList.layoutManager = LinearLayoutManager(this)
         val dividerItemDecoration = DividerItemDecoration(
-            songsList.getContext(),
+            songsList.context,
             (songsList.layoutManager as LinearLayoutManager).getOrientation()
         )
         songsList.addItemDecoration(dividerItemDecoration)
 
+        // initialize presenter and fetch data
         presenter = SongsListPresenter(this)
-
-        // call API
-        presenter!!.getSongsList(country)
-
+        presenter.getSongsList(country)
 
     }
 
     override fun displaySongs(tracks: MutableList<Track>) {
-        Log.d(Constants.TAG, "displaying songs: " + tracks[0].image[0].text)
 
         // sort tracks by name
-        var sortedList = tracks.sortedWith(compareBy({ it.name }))
+        val sortedList = tracks.sortedWith(compareBy({ it.name }))
 
         val adapter = SongsListAdapter(sortedList, baseContext)
         songsList.adapter = adapter
         adapter.notifyDataSetChanged()
-        progress.visibility = View.GONE
+        progressBar.visibility = View.GONE
     }
 
 }

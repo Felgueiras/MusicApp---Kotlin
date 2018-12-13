@@ -8,9 +8,8 @@ import java.io.Serializable;
 import java.util.List;
 
 /**
- * Created by felguiras on 27/09/2017.
+ * POJO for Last fm API call response
  */
-
 @Root(name = "tracks", strict = false)
 public class LastFMResponse implements Serializable {
 

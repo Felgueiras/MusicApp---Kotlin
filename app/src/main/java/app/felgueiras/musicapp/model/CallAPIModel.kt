@@ -3,9 +3,10 @@ package app.felgueiras.musicapp.model
 import android.util.Log
 import app.felgueiras.musicapp.Constants
 import app.felgueiras.musicapp.api.Artist
-import app.felgueiras.musicapp.api.LastFMRESTClient
+import app.felgueiras.musicapp.api.LastFMAPI
 import app.felgueiras.musicapp.api.LastFMResponse
 import app.felgueiras.musicapp.api.Tracks
+import app.felgueiras.musicapp.contracts.ModelContract
 import app.felgueiras.musicapp.presenter.SongsListPresenter
 import app.felgueiras.musicapp.presenter.SongDetailPresenter
 import okhttp3.OkHttpClient
@@ -18,12 +19,12 @@ import retrofit2.converter.gson.GsonConverterFactory
 /**
  * Singleton class responsible making calls to the Last.fm API
  */
-object CallAPIModel {
-
-    val API_BASE_URL = "http://ws.audioscrobbler.com/"
+object CallAPIModel : ModelContract.Model {
 
 
-    fun makeAPICall(presenter: Object?, parameter: String, callType: String) {
+    private const val API_BASE_URL = "http://ws.audioscrobbler.com/"
+
+    override fun makeAPICall(presenter: Object?, parameter: String, callType: String) {
 
         val retrofit: Retrofit
 
@@ -37,7 +38,7 @@ object CallAPIModel {
 
         retrofit = builder.client(httpClient.build()).build()
 
-        val client = retrofit.create(LastFMRESTClient::class.java)
+        val client = retrofit.create(LastFMAPI::class.java)
 
         var call: Call<LastFMResponse>? = null
         when (callType) {

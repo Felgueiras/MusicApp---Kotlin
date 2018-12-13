@@ -7,9 +7,8 @@ import java.io.Serializable;
 import java.util.List;
 
 /**
- * Created by felguiras on 27/09/2017.
+ * Track POJO.
  */
-
 @Root(name = "tracks", strict = false)
 public class Tracks implements Serializable {
 

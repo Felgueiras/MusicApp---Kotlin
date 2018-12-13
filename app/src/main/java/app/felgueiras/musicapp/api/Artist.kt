@@ -7,9 +7,8 @@ import java.io.Serializable
 
 
 /**
- * Created by felguiras on 27/09/2017.
+ * Artist POJO.
  */
-
 @Root(name = "artist", strict = false)
 class Artist : Serializable {
 

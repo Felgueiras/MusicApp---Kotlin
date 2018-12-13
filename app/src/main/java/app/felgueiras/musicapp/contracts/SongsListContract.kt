@@ -8,6 +8,9 @@ interface SongsListContract {
      * Operations offered from View to Presenter
      */
     interface View {
+        /**
+         * Display songs in UI as list.
+         */
         fun displaySongs(track: MutableList<Track>)
     }
 
@@ -15,6 +18,9 @@ interface SongsListContract {
      * Operations offered from Presenter to View
      */
     interface Presenter {
+        /**
+         * Get list of songs to be displayed.
+         */
         fun getSongsList(country: String)
     }
 }

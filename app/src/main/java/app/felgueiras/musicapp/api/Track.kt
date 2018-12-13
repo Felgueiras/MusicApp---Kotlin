@@ -6,13 +6,8 @@ import org.simpleframework.xml.Root
 import java.io.Serializable
 
 /**
- * Created by felguiras on 27/09/2017.
+ * Track POJO.
  */
-
-//    public String getmChannel() {
-//        return name;
-//    }
-
 @Root(name = "track", strict = false)
 class Track : Serializable {
 

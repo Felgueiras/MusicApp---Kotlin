@@ -3,7 +3,10 @@ package app.felgueiras.musicapp.api
 import retrofit2.Call
 import retrofit2.http.*
 
-interface LastFMRESTClient {
+/**
+ * Methods to be called on the Last FM API.
+ */
+interface LastFMAPI {
 
     @GET("/2.0/")
     fun getSongsByCountry(
