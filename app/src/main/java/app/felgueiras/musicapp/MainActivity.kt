@@ -14,6 +14,8 @@ import android.util.Log
 import android.provider.Settings.ACTION_LOCATION_SOURCE_SETTINGS
 import android.support.v7.app.AlertDialog
 import app.felgueiras.musicapp.view.SongsListActivity
+import android.view.View
+import kotlinx.android.synthetic.main.activity_main.*
 
 
 class MainActivity : AppCompatActivity() {
@@ -22,6 +24,8 @@ class MainActivity : AppCompatActivity() {
     private var lastLocation: Location? = null
     private lateinit var resultReceiver: AddressResultReceiver
     private lateinit var context: Context
+
+    private val TIME_OUT = 1500
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -32,48 +36,57 @@ class MainActivity : AppCompatActivity() {
 
         // initiate receiver
         resultReceiver = AddressResultReceiver(Handler())
+        progressBar.visibility = View.INVISIBLE
+
+        Handler().postDelayed({
+            progressBar.visibility = View.VISIBLE
+
+            // request location permissions
+            // TODO - check permission granted
+            val permissions = arrayOf(android.Manifest.permission.ACCESS_FINE_LOCATION)
+            ActivityCompat.requestPermissions(this, permissions, 0)
 
 
-        // request location permissions
-        // TODO - check permission granted
-        val permissions = arrayOf(android.Manifest.permission.ACCESS_FINE_LOCATION)
-        ActivityCompat.requestPermissions(this, permissions, 0)
+            // check if location/network enabled
+            locationManager = getSystemService(LOCATION_SERVICE) as LocationManager;
+            var gps_enabled = false
+            var network_enabled = false
 
-
-        // check if location/network enabled
-        locationManager = getSystemService(LOCATION_SERVICE) as LocationManager;
-        var gps_enabled = false
-        var network_enabled = false
-
-        try {
-            gps_enabled = locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)
-            network_enabled = locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER)
-        } catch (ex: Exception) {
-        }
-
-        if (!gps_enabled && !network_enabled) {
-            // notify user
-            val dialog = AlertDialog.Builder(this)
-            dialog.setMessage(getString(R.string.location_disabled))
-            dialog.setPositiveButton(
-                getString(R.string.open_location_settings)
-            ) { _, _ ->
-                val myIntent = Intent(ACTION_LOCATION_SOURCE_SETTINGS)
-                startActivity(myIntent)
+            try {
+                gps_enabled = locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)
+                network_enabled = locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER)
+            } catch (ex: Exception) {
             }
-            dialog.setNegativeButton(
-                getString(R.string.close)
-            ) { _, _ ->
-            }
-            dialog.show()
-        }
 
-        try {
-            // Request current location
-            locationManager?.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0L, 0f, locationListener);
-        } catch (ex: SecurityException) {
-            Log.d("myTag", "Security Exception, no location available");
-        }
+            if (!gps_enabled && !network_enabled) {
+                // notify user
+                val dialog = AlertDialog.Builder(this)
+                dialog.setMessage(getString(R.string.location_disabled))
+                dialog.setPositiveButton(
+                    getString(R.string.open_location_settings)
+                ) { _, _ ->
+                    val myIntent = Intent(ACTION_LOCATION_SOURCE_SETTINGS)
+                    startActivity(myIntent)
+                }
+                dialog.setNegativeButton(
+                    getString(R.string.close)
+                ) { _, _ ->
+                }
+                dialog.show()
+            }
+
+            try {
+                // Request current location
+                locationManager?.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0L, 0f, locationListener);
+            } catch (ex: SecurityException) {
+                Log.d("myTag", "Security Exception, no location available");
+            }
+
+
+        }, TIME_OUT.toLong())
+
+
+
 
     }
 

@@ -7,7 +7,7 @@ import app.felgueiras.musicapp.api.LastFMRESTClient
 import app.felgueiras.musicapp.api.LastFMResponse
 import app.felgueiras.musicapp.api.Tracks
 import app.felgueiras.musicapp.presenter.SongsListPresenter
-import app.felgueiras.musicapp.presenter.TrackDetailPresenter
+import app.felgueiras.musicapp.presenter.SongDetailPresenter
 import okhttp3.OkHttpClient
 import retrofit2.Call
 import retrofit2.Callback
@@ -69,7 +69,7 @@ object CallAPIModel {
                             Log.d("track", i.size + "-" + i.text)
                         }
 
-                        val pres = presenter as TrackDetailPresenter
+                        val pres = presenter as SongDetailPresenter
                         pres.displayArtistDetails(artist)
                     }
                 }

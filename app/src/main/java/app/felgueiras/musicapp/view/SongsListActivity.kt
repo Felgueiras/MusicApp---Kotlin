@@ -11,22 +11,27 @@ import android.widget.ProgressBar
 import app.felgueiras.musicapp.Constants
 import app.felgueiras.musicapp.R
 import app.felgueiras.musicapp.api.Track
+import app.felgueiras.musicapp.contracts.SongsListContract
 import app.felgueiras.musicapp.presenter.SongsListPresenter
 
-class SongsListActivity : AppCompatActivity(), SongsListPresenter.SongsList {
+class SongsListActivity : AppCompatActivity(), SongsListContract.View {
 
     // views
     lateinit var songsList: RecyclerView
     lateinit var progress: ProgressBar
 
-    private var presenter: SongsListPresenter? = null
+    private var presenter: SongsListContract.Presenter? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_api)
 
+
         // get country from bundle
         var country = intent.getSerializableExtra(Constants.COUNTRY) as String
+
+        // set title
+        setTitle("Top ${country}")
 
         progress = findViewById(R.id.progressBar)
         progress.visibility = View.VISIBLE
