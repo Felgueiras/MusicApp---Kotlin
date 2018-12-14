@@ -1,12 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                android:orientation="vertical" android:layout_width="match_parent"
+                xmlns:tools="http://schemas.android.com/tools" android:orientation="vertical" android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="5dp">
 
     <ImageView
             android:id="@+id/artistPhoto"
-            android:src="@color/colorPrimary"
+            android:src="@drawable/logo_no_text"
+            android:transitionName="artist"
             android:layout_width="60dp"
             android:layout_height="60dp"
             android:scaleType="fitXY"/>
@@ -29,6 +30,7 @@
                 android:textStyle="italic|bold"/>
         <TextView
                 android:id="@+id/artistName"
+                android:transitionName="artistName"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Artist/band"/>

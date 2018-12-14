@@ -1,7 +1,7 @@
 package app.felgueiras.musicapp.api;
 
-import org.simpleframework.xml.Element;
-import org.simpleframework.xml.Root;
+
+import com.google.gson.annotations.SerializedName;
 
 import java.io.Serializable;
 import java.util.List;
@@ -9,10 +9,9 @@ import java.util.List;
 /**
  * Track POJO.
  */
-@Root(name = "tracks", strict = false)
 public class Tracks implements Serializable {
 
-    @Element(name = "track")
+    @SerializedName("track")
     public List<Track> track;
 
 //    public String getmChannel() {

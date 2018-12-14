@@ -36,6 +36,8 @@ object CallAPIModel : ModelContract.Model {
                 GsonConverterFactory.create()
             )
 
+
+
         retrofit = builder.client(httpClient.build()).build()
 
         val client = retrofit.create(LastFMAPI::class.java)

@@ -13,6 +13,8 @@ import app.felgueiras.musicapp.api.Track
 import app.felgueiras.musicapp.contracts.SongsDetailContract
 import app.felgueiras.musicapp.presenter.SongDetailPresenter
 import kotlinx.android.synthetic.main.activity_detail.*
+import android.os.Build
+import com.bumptech.glide.Glide
 
 
 class DetailActivity : AppCompatActivity(), SongsDetailContract.View {
@@ -36,6 +38,13 @@ class DetailActivity : AppCompatActivity(), SongsDetailContract.View {
 
         // call API
         presenter!!.getArtistDetail(track.artist.mbid)
+
+        // animation
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            artistPhoto.setTransitionName("artist")
+        }
+
+        Glide.with(this).load(track.image[2].text).into(artistPhoto);
     }
 
 

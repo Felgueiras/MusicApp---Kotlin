@@ -1,22 +1,15 @@
 package app.felgueiras.musicapp.api;
 
-import org.simpleframework.xml.Element;
-import org.simpleframework.xml.ElementList;
-import org.simpleframework.xml.Root;
 
 import java.io.Serializable;
-import java.util.List;
 
 /**
  * POJO for Last fm API call response
  */
-@Root(name = "tracks", strict = false)
 public class LastFMResponse implements Serializable {
 
-    @Element(name = "tracks", required = false)
     public Tracks tracks;
 
-    @Element(name = "artist", required = false)
     public Artist artist;
 //    @Element(name = "user", required = false)
 //    private User user;
