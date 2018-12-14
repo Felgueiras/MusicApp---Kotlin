@@ -12,22 +12,21 @@ class Track : Serializable {
     @SerializedName("name")
     lateinit var name: String
 
+    @SerializedName("@attr")
+    lateinit var rank: Rank
+
     lateinit var artist: Artist
+
     var duration: Int = 0
 
-    var listener: Int = 0
+    var listeners: Int = 0
 
     lateinit var image: List<ImageInfo>
 
-    //    public Tracks(String mChannel) {
-    //        this.name = mChannel;
-    //    }
-    //
-    //    public String getName() {
-    //        return name;
-    //    }
-    //
-    //    public void setName(String name) {
-    //        this.name = name;
-    //    }
+
+    class Rank : Serializable {
+
+        var rank: Int = 0
+    }
+
 }

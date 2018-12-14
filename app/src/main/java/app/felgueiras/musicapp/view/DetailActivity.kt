@@ -14,6 +14,7 @@ import app.felgueiras.musicapp.contracts.SongsDetailContract
 import app.felgueiras.musicapp.presenter.SongDetailPresenter
 import kotlinx.android.synthetic.main.activity_detail.*
 import android.os.Build
+import android.view.View
 import com.bumptech.glide.Glide
 
 
@@ -80,9 +81,30 @@ class DetailActivity : AppCompatActivity(), SongsDetailContract.View {
 
         // TODO - pass all info to View
         Log.d(Constants.TAG, "" + artist.bio.content)
-        artistNameDetail.text = artist.name
+        artistName.text = artist.name
+        song.text = track.name
         bio.text = artist.bio.summary
-        genre.text = artist.tags.tag[0].name
+        genre.text = buildGenresText(artist.tags.tag)
+        // similar artists as grid
+        gridview.adapter = ImageAdapter(this, artist.similar.artist)
+        // seconds to minutes
+        if (track.duration != 0) {
+            duration.text = String.format("(%02d:%02d)", track.duration / 60, track.duration % 60);
+        } else {
+            duration.visibility = View.GONE
+        }
+    }
+
+    private fun buildGenresText(tags: List<Artist.Tag>): String {
+
+        var genres = ""
+        tags.forEach {
+            genres += it.name
+            if (tags.indexOf(it) != tags.size - 1)
+                genres += " · "
+        }
+        return genres
+
     }
 
 }

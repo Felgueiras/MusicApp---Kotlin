@@ -8,4 +8,5 @@ This app uses a Model View Presenter (MVP) architecture.
 
 ## External tools/libraries:
 - [Retrofit](https://square.github.io/retrofit/): handle Last.fm API calls and corresponding responses
+- [Glide](https://bumptech.github.io/glide/): image loading and caching
 

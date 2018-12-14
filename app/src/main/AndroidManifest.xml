@@ -29,7 +29,7 @@
         <activity
                 android:name=".view.SongsListActivity"
                 android:label="@string/title_activity_api"
-                android:theme="@style/AppTheme">
+                android:theme="@style/AppTheme.NoActionBar">
 
         </activity>
         <activity

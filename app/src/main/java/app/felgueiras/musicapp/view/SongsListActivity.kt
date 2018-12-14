@@ -20,7 +20,7 @@ class SongsListActivity : AppCompatActivity() {
         val country = intent.getSerializableExtra(Constants.COUNTRY) as String
 
         // set title
-        title = "Top $country"
+        info.text = "Top Songs $country"
 
         // build songsList RecyclerView
         songsList.layoutManager = LinearLayoutManager(this)
@@ -28,12 +28,8 @@ class SongsListActivity : AppCompatActivity() {
             songsList.context,
             (songsList.layoutManager as LinearLayoutManager).getOrientation()
         )
-        songsList.addItemDecoration(dividerItemDecoration)
 
-        // sort tracks by name
-        val sortedList = tracks.sortedWith(compareBy({ it.name }))
-
-        val adapter = SongsListAdapter(sortedList, this)
+        val adapter = SongsListAdapter(ArrayList(tracks), this)
         songsList.adapter = adapter
         adapter.notifyDataSetChanged()
         progressBar.visibility = View.GONE

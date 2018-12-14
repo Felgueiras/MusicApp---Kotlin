@@ -46,6 +46,7 @@ internal class SongsListAdapter(private val tracks: List<Track>, private val con
         var title: TextView = view.findViewById(R.id.trackName)
         var artist: TextView = view.findViewById(R.id.artistName)
         var artistPhoto: ImageView = view.findViewById(R.id.artistPhoto)
+        var ranking: TextView = view.findViewById(R.id.ranking)
 
         init {
 
@@ -68,6 +69,8 @@ internal class SongsListAdapter(private val tracks: List<Track>, private val con
             artist.text = track.artist.name
             // load image (Glide)
             Glide.with(context).load(track.image[2].text).into(artistPhoto);
+            //  show ranking to the left side
+            ranking.text = "" + (track.rank.rank+1)
         }
     }
 }
