@@ -6,12 +6,11 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             tools:context=".MainActivity">
-    <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                                                 xmlns:app="http://schemas.android.com/apk/res-auto"
-                                                 xmlns:tools="http://schemas.android.com/tools"
-                                                 android:layout_width="match_parent"
-                                                 android:layout_height="wrap_content"
-                                                 android:id="@+id/constraintLayout">
+
+    <android.support.constraint.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/constraintLayout">
 
         <ImageView
                 android:id="@+id/artistPhoto"
@@ -23,6 +22,16 @@
                 app:layout_constraintBottom_toTopOf="@+id/artistName"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintStart_toStartOf="parent"/>
+
+        <android.support.design.widget.FloatingActionButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:clickable="true"
+                app:srcCompat="@android:drawable/ic_menu_share"
+                android:id="@+id/share"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                android:layout_marginTop="180dp" android:layout_marginRight="24dp"/>
 
 
         <TextView
@@ -62,6 +71,18 @@
                 android:textStyle="bold"
                 app:layout_constraintStart_toStartOf="parent" android:layout_marginLeft="5dp"
                 android:layout_marginStart="5dp" app:layout_constraintTop_toBottomOf="@+id/song"
+                app:layout_constraintBottom_toTopOf="@+id/listeners"/>
+
+        <TextView
+                android:id="@+id/listeners"
+                android:transitionName="artistName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Listeners"
+                android:textSize="12sp"
+                android:textStyle="bold"
+                app:layout_constraintStart_toStartOf="parent" android:layout_marginLeft="5dp"
+                android:layout_marginStart="5dp" app:layout_constraintTop_toBottomOf="@+id/duration"
                 app:layout_constraintBottom_toTopOf="@+id/genre"/>
 
         <TextView
@@ -72,7 +93,7 @@
                 android:textSize="14sp"
                 android:textStyle="bold"
                 app:layout_constraintStart_toStartOf="@+id/artistName"
-                app:layout_constraintTop_toBottomOf="@+id/duration"
+                app:layout_constraintTop_toBottomOf="@+id/listeners"
                 app:layout_constraintBottom_toTopOf="@+id/bio"/>
 
         <TextView
@@ -80,7 +101,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Bio"
-                android:textSize="12sp"
+                android:textSize="14sp"
                 android:textStyle="bold"
                 app:layout_constraintStart_toStartOf="@+id/genre"
                 app:layout_constraintTop_toBottomOf="@+id/genre"
@@ -96,6 +117,16 @@
                 android:textStyle="bold"
                 app:layout_constraintTop_toBottomOf="@+id/bio" android:layout_marginTop="8dp"
                 app:layout_constraintStart_toStartOf="@+id/bio"/>
+
+        <ProgressBar
+                style="?android:attr/progressBarStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/progressBar"
+                app:layout_constraintTop_toBottomOf="@id/bio"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintLeft_toLeftOf="parent"
+                android:visibility="visible" android:layout_marginTop="100dp"/>
 
         <app.felgueiras.musicapp.view.MyGridView
                 android:layout_width="match_parent"

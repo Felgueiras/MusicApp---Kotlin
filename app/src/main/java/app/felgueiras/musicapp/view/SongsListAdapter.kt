@@ -12,6 +12,7 @@ import app.felgueiras.musicapp.R
 import app.felgueiras.musicapp.api.Track
 import android.support.v4.app.ActivityOptionsCompat
 import android.widget.ImageView
+import app.felgueiras.musicapp.Constants
 import com.bumptech.glide.Glide
 
 
@@ -30,7 +31,7 @@ internal class SongsListAdapter(private val tracks: List<Track>, private val con
     }
 
     override fun onBindViewHolder(holder: SongInListHolder, position: Int) {
-        // get current track
+        // get current tracks
         val track = tracks[position]
         holder.bindTrack(track)
 
@@ -67,8 +68,8 @@ internal class SongsListAdapter(private val tracks: List<Track>, private val con
             this.track = track
             title.text = track.name
             artist.text = track.artist.name
-            // load image (Glide)
-            Glide.with(context).load(track.image[2].text).into(artistPhoto);
+            // load images (Glide)
+            Glide.with(context).load(track.images[Constants.IMAGE_QUALITY].url).into(artistPhoto);
             //  show ranking to the left side
             ranking.text = "" + (track.rank.rank+1)
         }

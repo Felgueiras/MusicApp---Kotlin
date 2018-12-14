@@ -9,7 +9,6 @@ import java.io.Serializable
  */
 class Track : Serializable {
 
-    @SerializedName("name")
     lateinit var name: String
 
     @SerializedName("@attr")
@@ -21,8 +20,8 @@ class Track : Serializable {
 
     var listeners: Int = 0
 
-    lateinit var image: List<ImageInfo>
-
+    @SerializedName("image")
+    lateinit var images: List<ImageInfo>
 
     class Rank : Serializable {
 

@@ -60,17 +60,13 @@ object CallAPIModel : ModelContract.Model {
                 when (callType) {
                     Constants.CALL_SONGS -> {
                         val tracks: Tracks = resp!!.tracks
-                        val track = tracks.track
+                        val track = tracks.tracks
 
                         val pres = presenter as SongsListPresenter
                         pres.displaySongs(track)
                     }
                     Constants.CALL_ARTIST -> {
                         val artist: Artist = resp!!.artist
-                        Log.d("artist", artist.name)
-                        artist.image!!.forEach { i ->
-                            Log.d("track", i.size + "-" + i.text)
-                        }
 
                         val pres = presenter as SongDetailPresenter
                         pres.displayArtistDetails(artist)

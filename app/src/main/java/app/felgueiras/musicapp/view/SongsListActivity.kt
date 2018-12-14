@@ -16,6 +16,8 @@ class SongsListActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_songs_list)
 
+        scrollViewSongsList.smoothScrollTo(0,0)
+
         val tracks = intent.getSerializableExtra(Constants.TRACKS) as ArrayList<Track>
         val country = intent.getSerializableExtra(Constants.COUNTRY) as String
 

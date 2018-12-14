@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import android.widget.BaseAdapter
 import android.widget.ImageView
 import android.widget.TextView
+import app.felgueiras.musicapp.Constants
 import app.felgueiras.musicapp.R
 import app.felgueiras.musicapp.api.Artist
 import com.bumptech.glide.Glide
@@ -43,7 +44,7 @@ class ImageAdapter(
 
         val artist = similar[position]
         holder.txtTitle.text = artist.name
-        Glide.with(mContext).load(artist.image[2].text).into(holder.imageItem);
+        Glide.with(mContext).load(artist.image[Constants.IMAGE_QUALITY].url).into(holder.imageItem);
 
         return row!!
     }

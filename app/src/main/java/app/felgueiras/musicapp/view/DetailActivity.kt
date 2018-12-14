@@ -35,7 +35,21 @@ class DetailActivity : AppCompatActivity(), SongsDetailContract.View {
 
         presenter = SongDetailPresenter(this)
 
-        // TODO - loading indicator
+        artistName.text = track.artist.name
+        song.text = track.name
+        // seconds to minutes
+        if (track.duration != 0) {
+            duration.text = String.format("(%02d:%02d)", track.duration / 60, track.duration % 60);
+        } else {
+            duration.visibility = View.GONE
+        }
+        // millions / thousands
+        val listenersCount = track.listeners
+        if (listenersCount / 1000000 > 1) {
+            listeners.text = String.format("Listeners: %d M", track.listeners / 1000000);
+        } else {
+            listeners.text = String.format("Listeners: %d K", track.listeners / 1000);
+        }
 
         // call API
         presenter!!.getArtistDetail(track.artist.mbid)
@@ -45,33 +59,22 @@ class DetailActivity : AppCompatActivity(), SongsDetailContract.View {
             artistPhoto.setTransitionName("artist")
         }
 
-        Glide.with(this).load(track.image[2].text).into(artistPhoto);
-    }
-
-
-    override fun onCreateOptionsMenu(menu: Menu): Boolean {
-        // Inflate menu resource file.
-        menuInflater.inflate(R.menu.share_menu, menu)
-
-        // Return true to display menu
-        return true
-    }
-
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        // Handle item selection
-        return when (item.itemId) {
-            R.id.share -> {
-                // TODO - set text to share
-                val sendIntent: Intent = Intent().apply {
-                    action = Intent.ACTION_SEND
-                    putExtra(Intent.EXTRA_TEXT, artist.toString() + track.toString())
-                    type = "text/plain"
-                }
-                startActivity(sendIntent)
-                true
+        share.setOnClickListener {
+            val sendIntent: Intent = Intent().apply {
+                action = Intent.ACTION_SEND
+                putExtra(Intent.EXTRA_TEXT, artist.toString() + track.toString())
+                type = "url/plain"
             }
-            else -> super.onOptionsItemSelected(item)
+            startActivity(sendIntent)
         }
+
+        Glide.with(this).load(track.images[Constants.IMAGE_QUALITY].url).into(artistPhoto);
+
+        // hide fields
+        bio.visibility = View.INVISIBLE
+        genre.visibility = View.INVISIBLE
+        similar.visibility = View.INVISIBLE
+        progressBar.visibility = View.VISIBLE
     }
 
 
@@ -79,20 +82,16 @@ class DetailActivity : AppCompatActivity(), SongsDetailContract.View {
 
         this.artist = artist
 
-        // TODO - pass all info to View
-        Log.d(Constants.TAG, "" + artist.bio.content)
-        artistName.text = artist.name
-        song.text = track.name
-        bio.text = artist.bio.summary
+        // show fields
+        bio.visibility = View.VISIBLE
+        genre.visibility = View.VISIBLE
+        similar.visibility = View.VISIBLE
+        progressBar.visibility = View.GONE
+        val bioSummary = artist.bio.summary.split("<a ")[0]
+        bio.text = "Bio\n " + bioSummary + " ..."
         genre.text = buildGenresText(artist.tags.tag)
         // similar artists as grid
         gridview.adapter = ImageAdapter(this, artist.similar.artist)
-        // seconds to minutes
-        if (track.duration != 0) {
-            duration.text = String.format("(%02d:%02d)", track.duration / 60, track.duration % 60);
-        } else {
-            duration.visibility = View.GONE
-        }
     }
 
     private fun buildGenresText(tags: List<Artist.Tag>): String {
