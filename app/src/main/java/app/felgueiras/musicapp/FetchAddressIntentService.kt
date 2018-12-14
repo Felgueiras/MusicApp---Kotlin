@@ -68,10 +68,9 @@ class FetchAddressIntentService : IntentService("FetchAddressIntentService") {
             val addressFragments = with(address) {
                 (0..maxAddressLineIndex).map { getAddressLine(it) }
             }
-            val country: String = addresses[0].countryName
             deliverResultToReceiver(
                 Constants.SUCCESS_RESULT,
-                country
+                "${address.countryName}-${address.countryCode}"
             )
         }
     }

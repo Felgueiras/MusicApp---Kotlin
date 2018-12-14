@@ -6,4 +6,7 @@
     <string name="location_disabled">GPS network not enabled, what do you want to do?</string>
     <string name="open_location_settings">Open location settings</string>
     <string name="close">Close app</string>
+    <string name="title_location_permission">Access location</string>
+    <string name="text_location_permission">We need to access your location in order to get your country</string>
+    <string name="ok">ok</string>
 </resources>

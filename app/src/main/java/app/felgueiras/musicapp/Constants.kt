@@ -14,4 +14,6 @@ object Constants {
     val CALL_ARTIST = "CALL_ARTIST"
 
     val COUNTRY = "COUNTRY"
+    val TRACKS = "TRACKS"
+    val REQUEST_PERMISSION = 99
 }

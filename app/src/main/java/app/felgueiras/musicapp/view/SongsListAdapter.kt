@@ -1,5 +1,6 @@
 package app.felgueiras.musicapp.view
 
+import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.support.v7.widget.RecyclerView
@@ -9,53 +10,54 @@ import android.view.ViewGroup
 import android.widget.TextView
 import app.felgueiras.musicapp.R
 import app.felgueiras.musicapp.api.Track
+import android.support.v4.app.ActivityOptionsCompat
+import android.widget.ImageView
+import com.bumptech.glide.Glide
 
 
 /**
  * Adapter:
  */
 internal class SongsListAdapter(private val tracks: List<Track>, private val context: Context) :
-    RecyclerView.Adapter<SongsListAdapter.BookInListHolder>() {
+    RecyclerView.Adapter<SongsListAdapter.SongInListHolder>() {
 
     var songs: List<Track>? = tracks
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BookInListHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SongInListHolder {
         val inflatedView = LayoutInflater.from(parent.context)
             .inflate(R.layout.track_in_list, parent, false)
-        return BookInListHolder(inflatedView, context)
+        return SongInListHolder(inflatedView, context)
     }
 
-    override fun onBindViewHolder(holder: BookInListHolder, position: Int) {
+    override fun onBindViewHolder(holder: SongInListHolder, position: Int) {
         // get current track
         val track = tracks[position]
         holder.bindTrack(track)
+
     }
 
     override fun getItemCount(): Int {
         return songs!!.size
     }
 
-    class BookInListHolder(view: View, private val context: Context) : RecyclerView.ViewHolder(view) {
+    class SongInListHolder(view: View, private val context: Context) : RecyclerView.ViewHolder(view) {
 
         lateinit var track: Track
         var title: TextView = view.findViewById(R.id.trackName)
         var artist: TextView = view.findViewById(R.id.artistName)
+        var artistPhoto: ImageView = view.findViewById(R.id.artistPhoto)
 
         init {
 
             view.setOnClickListener {
                 val intent = Intent(context, DetailActivity::class.java)
                 intent.putExtra("TRACK", track)
-                context.startActivity(intent)
-//                Log.d(Constants.TAG, "clicked")
-//                val f = (view.context as DrawerActivity).fragmentManager.findFragmentById(R.id.current_fragment)
-//                val newFragment:Fragment = BookDetailView.Companion.newInstance(1, track)
-//                (view.context as DrawerActivity).fragmentManager.beginTransaction()
-////                        .hide(f)
-//                        .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
-//                        .add(R.id.current_fragment,newFragment )
-//                        .addToBackStack(null)
-//                        .commit()
+                val options = ActivityOptionsCompat.makeSceneTransitionAnimation(
+                    context as Activity,
+                    artistPhoto,
+                    "artist"
+                )
+                context.startActivity(intent, options.toBundle())
             }
         }
 
@@ -65,7 +67,7 @@ internal class SongsListAdapter(private val tracks: List<Track>, private val con
             title.text = track.name
             artist.text = track.artist.name
             // load image (Glide)
-//            Glide.with(context).load(this.track.image_url).into(bookCover);
+            Glide.with(context).load(track.image[2].text).into(artistPhoto);
         }
     }
 }
