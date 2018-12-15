@@ -9,10 +9,6 @@ object Constants {
     const val LOCATION_DATA_EXTRA = "$PACKAGE_NAME.LOCATION_DATA_EXTRA"
     const val TAG = "MYTAG"
 
-    // APIs
-    const val CALL_SONGS = "CALL_SONGS"
-    const val CALL_ARTIST = "CALL_ARTIST"
-
     const val COUNTRY = "COUNTRY"
     const val TRACKS = "TRACKS"
     const val REQUEST_PERMISSION = 99

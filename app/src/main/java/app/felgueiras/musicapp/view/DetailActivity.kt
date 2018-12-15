@@ -7,7 +7,7 @@ import app.felgueiras.musicapp.Constants
 import app.felgueiras.musicapp.R
 import app.felgueiras.musicapp.api.Artist
 import app.felgueiras.musicapp.api.Track
-import app.felgueiras.musicapp.contracts.SongsDetailContract
+import app.felgueiras.musicapp.contracts.SongDetailContract
 import app.felgueiras.musicapp.presenter.SongDetailPresenter
 import kotlinx.android.synthetic.main.activity_detail.*
 import android.os.Build
@@ -16,11 +16,11 @@ import app.felgueiras.musicapp.model.Model
 import com.bumptech.glide.Glide
 
 
-class DetailActivity : AppCompatActivity(), SongsDetailContract.View {
+class DetailActivity : AppCompatActivity(), SongDetailContract.View {
 
     lateinit var artist: Artist
     lateinit var track: Track
-    private var presenter: SongDetailPresenter? = null
+    private var presenter = SongDetailPresenter(Model.getModel())
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -31,7 +31,7 @@ class DetailActivity : AppCompatActivity(), SongsDetailContract.View {
         track = intent.getSerializableExtra("TRACK") as Track
         title = track.name
 
-        presenter = SongDetailPresenter(this, Model())
+        presenter.attachView(this)
 
         artistName.text = track.artist.name
         song.text = track.name
@@ -102,6 +102,14 @@ class DetailActivity : AppCompatActivity(), SongsDetailContract.View {
         }
         return genres
 
+    }
+
+    /**
+     * Detach view from presenter.
+     */
+    override fun onDestroy() {
+        super.onDestroy()
+        presenter.detachView()
     }
 
 }

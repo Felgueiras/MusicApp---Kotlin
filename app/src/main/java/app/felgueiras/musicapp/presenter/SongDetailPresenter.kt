@@ -1,24 +1,21 @@
 package app.felgueiras.musicapp.presenter
 
-import app.felgueiras.musicapp.Constants
 import app.felgueiras.musicapp.api.Artist
-import app.felgueiras.musicapp.contracts.SongsDetailContract
+import app.felgueiras.musicapp.contracts.ModelContract
+import app.felgueiras.musicapp.contracts.SongDetailContract
 import app.felgueiras.musicapp.model.ModelCallback
-import app.felgueiras.musicapp.model.Model
-import app.felgueiras.musicapp.view.DetailActivity
 
 class SongDetailPresenter(
-    val view: DetailActivity,
-    val model: Model
-) : SongsDetailContract.Presenter {
+    val model: ModelContract
+) :  BasePresenter<SongDetailContract.View>(), SongDetailContract.Presenter {
 
 
     override fun getArtistDetail(mbid: String) {
 
-        model.getArtistDetail(this as Object, mbid, Constants.CALL_ARTIST, object : ModelCallback<Artist> {
+        model.getArtistDetail(this as Object, mbid, object : ModelCallback<Artist> {
             override fun onSuccess(artist: Artist?) {
 
-                view.displayArtistInfo(artist!!)
+                view!!.displayArtistInfo(artist!!)
             }
 
             // 4

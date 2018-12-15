@@ -21,7 +21,7 @@ import kotlinx.android.synthetic.main.activity_main.*
  */
 class SplashScreenActivity : AppCompatActivity(), SplashScreenContract.View {
 
-    private val presenter: SplashScreenPresenter = SplashScreenPresenter(Model())
+    private val presenter: SplashScreenPresenter = SplashScreenPresenter(Model.getModel())
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

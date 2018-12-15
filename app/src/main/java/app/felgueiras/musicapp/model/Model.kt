@@ -1,7 +1,6 @@
 package app.felgueiras.musicapp.model
 
 import android.util.Log
-import app.felgueiras.musicapp.Constants
 import app.felgueiras.musicapp.api.*
 import app.felgueiras.musicapp.contracts.ModelContract
 import okhttp3.OkHttpClient
@@ -14,28 +13,17 @@ import retrofit2.converter.gson.GsonConverterFactory
 /**
  * Class responsible for making calls to the Last.fm API
  */
-class Model : ModelContract.Model {
+class Model(private val retrofit: Retrofit) : ModelContract {
 
 
-    private val API_BASE_URL = "http://ws.audioscrobbler.com/"
-    val httpClient = OkHttpClient.Builder()
-
-    val builder = Retrofit.Builder()
-        .baseUrl(API_BASE_URL)
-        .addConverterFactory(
-            GsonConverterFactory.create()
-        )
-    val retrofit: Retrofit = builder.client(httpClient.build()).build()
-
-    override fun getSongs(presenter: Any?, parameter: String, callType: String, callback: ModelCallback<List<Track>>) {
+    override fun getSongs(
+        presenter: Any?, parameter: String,
+        callback: ModelCallback<List<Track>>
+    ) {
 
         val client = retrofit.create(LastFMAPI::class.java)
 
-        var call: Call<LastFMResponse>? = null
-        when (callType) {
-            Constants.CALL_SONGS -> call = client.getSongsByCountry(country = parameter)
-            Constants.CALL_ARTIST -> call = client.getArtistInfo(mbid = parameter)
-        }
+        var call: Call<LastFMResponse>? = client.getSongsByCountry(country = parameter)
 
         // Execute the call asynchronously
         call!!.enqueue(object : Callback<LastFMResponse> {
@@ -63,17 +51,13 @@ class Model : ModelContract.Model {
     override fun getArtistDetail(
         presenter: Any?,
         parameter: String,
-        callType: String,
         callback: ModelCallback<Artist>
     ) {
 
         val client = retrofit.create(LastFMAPI::class.java)
 
-        var call: Call<LastFMResponse>? = null
-        when (callType) {
-            Constants.CALL_SONGS -> call = client.getSongsByCountry(country = parameter)
-            Constants.CALL_ARTIST -> call = client.getArtistInfo(mbid = parameter)
-        }
+        var call: Call<LastFMResponse>? = client.getArtistInfo(mbid = parameter)
+
 
         // Execute the call asynchronously
         call!!.enqueue(object : Callback<LastFMResponse> {
@@ -95,5 +79,20 @@ class Model : ModelContract.Model {
         })
 
 
+    }
+
+    companion object {
+        fun getModel(): Model {
+            val API_BASE_URL = "http://ws.audioscrobbler.com/"
+            val httpClient = OkHttpClient.Builder()
+
+            val builder = Retrofit.Builder()
+                .baseUrl(API_BASE_URL)
+                .addConverterFactory(
+                    GsonConverterFactory.create()
+                )
+            val retrofit: Retrofit = builder.client(httpClient.build()).build()
+            return Model(retrofit)
+        }
     }
 }

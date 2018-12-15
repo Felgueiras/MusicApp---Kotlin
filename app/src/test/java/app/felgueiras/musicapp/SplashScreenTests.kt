@@ -1,5 +1,6 @@
 package app.felgueiras.musicapp
 
+import android.util.Log
 import app.felgueiras.musicapp.api.Track
 import app.felgueiras.musicapp.contracts.ModelContract
 import app.felgueiras.musicapp.contracts.SplashScreenContract
@@ -22,9 +23,9 @@ class SplashScreenTests {
     /**
      * mocked model
      */
-    private lateinit var model: ModelContract.Model
+    private lateinit var model: ModelContract
 
-    val countryName = "Portugal"
+    private val countryName = "Portugal"
 
     val track = Track()
     lateinit var list: MutableList<Track>
@@ -39,23 +40,24 @@ class SplashScreenTests {
         track.name = "song #2"
         list = mutableListOf(track)
 
+        presenter.countryName = countryName
+
     }
 
 
     @Test
-    fun getSongsList_callsMakeAPICall() {
-
-        presenter.getSongsList(countryName)
+    fun getSongsList_callsGoToSongList() {
 
         // mock makeAPICall method
         doAnswer {
-            val callback: ModelCallback<List<Track>> = it.getArgument(1)
+            val callback: ModelCallback<List<Track>> = it.getArgument(2)
             callback.onSuccess(list)
-        }.whenever(model).getSongs(any(), eq(countryName), eq(Constants.CALL_SONGS), any())
+        }.whenever(model).getSongs(any(), eq(countryName), any())
 
-        verify(model).getSongs(any(), eq(countryName), eq(Constants.CALL_SONGS), any())
+        presenter.getSongsList(countryName)
 
+        verify(model).getSongs(any(), eq(countryName), any())
 
-//        verify(view).goToSongsList(any(), any())
+        verify(view).goToSongsList(any(), any())
     }
 }

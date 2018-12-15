@@ -25,5 +25,7 @@ interface SplashScreenContract {
         fun startIntentService(lastLocation: Location)
 
         fun listenLocationUpdates()
+
+        fun getLocationInfo()
     }
 }

@@ -2,7 +2,7 @@ package app.felgueiras.musicapp.contracts
 
 import app.felgueiras.musicapp.api.Artist
 
-interface SongsDetailContract {
+interface SongDetailContract {
 
     /**
      * Operations offered from View to Presenter

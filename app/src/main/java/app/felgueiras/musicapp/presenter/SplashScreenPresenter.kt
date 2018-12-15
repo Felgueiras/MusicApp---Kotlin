@@ -26,7 +26,7 @@ import app.felgueiras.musicapp.contracts.SplashScreenContract
 import app.felgueiras.musicapp.model.ModelCallback
 
 class SplashScreenPresenter(
-    val model: ModelContract.Model
+    val model: ModelContract
 ) : BasePresenter<SplashScreenContract.View>(), SplashScreenContract.Presenter {
 
     /**
@@ -39,7 +39,7 @@ class SplashScreenPresenter(
     private lateinit var resultReceiver: AddressResultReceiver
 
 
-    fun getLocationInfo(): Boolean {
+    override fun getLocationInfo() {
         resultReceiver = AddressResultReceiver(Handler())
 
         if (ContextCompat.checkSelfPermission(
@@ -80,10 +80,8 @@ class SplashScreenPresenter(
                     Constants.REQUEST_PERMISSION
                 )
             }
-            return false
         } else {
             listenLocationUpdates()
-            return true
         }
     }
 
@@ -170,11 +168,11 @@ class SplashScreenPresenter(
      * Get songs list from Model
      */
     fun getSongsList(country: String) {
-        model.getSongs(this as Object, country, Constants.CALL_SONGS, object : ModelCallback<List<Track>> {
+        model.getSongs(this as Object, country, object : ModelCallback<List<Track>> {
             // 3
             override fun onSuccess(tracks: List<Track>?) {
 
-                view!!.goToSongsList(ArrayList(tracks), countryName)
+                view?.goToSongsList(ArrayList(tracks), countryName)
             }
 
             // 4
