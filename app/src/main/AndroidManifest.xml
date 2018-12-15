@@ -17,7 +17,7 @@
                 android:name=".FetchAddressIntentService"
                 android:exported="false"/>
         <activity
-                android:name=".MainActivity"
+                android:name=".view.SplashScreenActivity"
                 android:theme="@style/AppTheme.NoActionBar"
                 android:noHistory="true"
         >

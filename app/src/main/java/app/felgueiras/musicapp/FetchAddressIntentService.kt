@@ -8,6 +8,7 @@ import android.location.Location
 import android.os.Bundle
 import android.os.ResultReceiver
 import android.util.Log
+import app.felgueiras.musicapp.presenter.SplashScreenPresenter
 import java.io.IOException
 import java.util.*
 
@@ -27,7 +28,7 @@ class FetchAddressIntentService : IntentService("FetchAddressIntentService") {
 
         // Get the location passed to this service through an extra.
         val location = intent.getParcelableExtra<Location>(Constants.LOCATION_DATA_EXTRA)
-        receiver = intent.getParcelableExtra<MainActivity.AddressResultReceiver>(Constants.RECEIVER)
+        receiver = intent.getParcelableExtra<SplashScreenPresenter.AddressResultReceiver>(Constants.RECEIVER)
 
 
         val geocoder = Geocoder(this, Locale.getDefault())

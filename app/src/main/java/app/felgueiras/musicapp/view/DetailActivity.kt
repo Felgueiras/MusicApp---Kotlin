@@ -3,9 +3,6 @@ package app.felgueiras.musicapp.view
 import android.content.Intent
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
-import android.util.Log
-import android.view.Menu
-import android.view.MenuItem
 import app.felgueiras.musicapp.Constants
 import app.felgueiras.musicapp.R
 import app.felgueiras.musicapp.api.Artist
@@ -15,6 +12,7 @@ import app.felgueiras.musicapp.presenter.SongDetailPresenter
 import kotlinx.android.synthetic.main.activity_detail.*
 import android.os.Build
 import android.view.View
+import app.felgueiras.musicapp.model.Model
 import com.bumptech.glide.Glide
 
 
@@ -33,7 +31,7 @@ class DetailActivity : AppCompatActivity(), SongsDetailContract.View {
         track = intent.getSerializableExtra("TRACK") as Track
         title = track.name
 
-        presenter = SongDetailPresenter(this)
+        presenter = SongDetailPresenter(this, Model())
 
         artistName.text = track.artist.name
         song.text = track.name
