@@ -39,9 +39,11 @@ class Model(private val retrofit: Retrofit) : ModelContract {
             }
 
             override fun onFailure(call: Call<LastFMResponse>, t: Throwable) {
-                // the network call was a failure
-                // TODO: handle error
-                Log.d("RESTerr", t.toString())
+                /**
+                 *error making API call (most likely due to disabled internet connection)
+                 * propagate error to Presenter
+                 */
+                callback.onError()
             }
         })
 
@@ -72,9 +74,11 @@ class Model(private val retrofit: Retrofit) : ModelContract {
             }
 
             override fun onFailure(call: Call<LastFMResponse>, t: Throwable) {
-                // the network call was a failure
-                // TODO: handle error
-                Log.d("RESTerr", t.toString())
+                /**
+                 *error making API call (most likely due to disabled internet connection)
+                 * propagate error to Presenter
+                 */
+                callback.onError()
             }
         })
 

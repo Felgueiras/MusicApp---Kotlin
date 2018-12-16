@@ -1,7 +1,9 @@
 package app.felgueiras.musicapp.contracts
 
+import android.app.Activity
 import android.location.Location
 import app.felgueiras.musicapp.api.Track
+
 
 interface SplashScreenContract {
 
@@ -13,7 +15,14 @@ interface SplashScreenContract {
         fun goToSongsList(tracks: ArrayList<Track>, countryName: String)
 
         fun waitingLocation()
+
         fun showCountryInfo(countryFlagURL: String, countryName: String)
+
+        fun showNetworkError()
+
+        fun showLocationDisabledError()
+
+        fun getViewActivity(): Activity
 
     }
 
@@ -24,8 +33,9 @@ interface SplashScreenContract {
 
         fun startIntentService(lastLocation: Location)
 
-        fun listenLocationUpdates()
+        fun onLocationPermissionsResult()
 
-        fun getLocationInfo()
+        fun requestLocationPermission()
+
     }
 }

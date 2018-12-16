@@ -1,10 +1,13 @@
 package app.felgueiras.musicapp.view
 
 import android.Manifest
+import android.app.Activity
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Bundle
+import android.provider.Settings
 import android.support.v4.content.ContextCompat
+import android.support.v7.app.AlertDialog
 import android.support.v7.app.AppCompatActivity
 import android.view.View
 import app.felgueiras.musicapp.Constants
@@ -21,6 +24,7 @@ import kotlinx.android.synthetic.main.activity_main.*
  */
 class SplashScreenActivity : AppCompatActivity(), SplashScreenContract.View {
 
+
     private val presenter: SplashScreenPresenter = SplashScreenPresenter(Model.getModel())
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -31,7 +35,7 @@ class SplashScreenActivity : AppCompatActivity(), SplashScreenContract.View {
         presenter.attachView(this)
 
         // request location permissions
-        presenter.getLocationInfo()
+        presenter.requestLocationPermission()
     }
 
     /**
@@ -76,7 +80,7 @@ class SplashScreenActivity : AppCompatActivity(), SplashScreenContract.View {
                         ) == PackageManager.PERMISSION_GRANTED
                     ) {
 
-                        presenter.listenLocationUpdates();
+                        presenter.onLocationPermissionsResult();
                     }
 
                 } else {
@@ -97,6 +101,45 @@ class SplashScreenActivity : AppCompatActivity(), SplashScreenContract.View {
         intent.putExtra(Constants.TRACKS, tracks)
         intent.putExtra(Constants.COUNTRY, countryName)
         startActivity(intent)
+    }
+
+    /**
+     * Show AlertDialog with network connection disabled info
+     */
+    override fun showNetworkError() {
+        val dialog = AlertDialog.Builder(this)
+        dialog.setMessage(getString(R.string.network_disabled))
+        dialog.setPositiveButton(
+            getString(R.string.open_network_settings)
+        ) { _, _ ->
+            val myIntent = Intent(Settings.ACTION_WIFI_SETTINGS)
+            startActivity(myIntent)
+        }
+        dialog.setNegativeButton(
+            getString(R.string.close)
+        ) { _, _ ->
+        }
+        dialog.show()
+    }
+
+    override fun showLocationDisabledError() {
+        val dialog = AlertDialog.Builder(this)
+        dialog.setMessage(getString(R.string.location_disabled))
+        dialog.setPositiveButton(
+            getString(R.string.open_location_settings)
+        ) { _, _ ->
+            val myIntent = Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS)
+            startActivity(myIntent)
+        }
+        dialog.setNegativeButton(
+            getString(R.string.close)
+        ) { _, _ ->
+        }
+        dialog.show()
+    }
+
+    override fun getViewActivity(): Activity {
+        return this
     }
 
 

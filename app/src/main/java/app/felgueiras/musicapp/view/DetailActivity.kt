@@ -11,12 +11,15 @@ import app.felgueiras.musicapp.contracts.SongDetailContract
 import app.felgueiras.musicapp.presenter.SongDetailPresenter
 import kotlinx.android.synthetic.main.activity_detail.*
 import android.os.Build
+import android.provider.Settings
+import android.support.v7.app.AlertDialog
 import android.view.View
 import app.felgueiras.musicapp.model.Model
 import com.bumptech.glide.Glide
 
 
 class DetailActivity : AppCompatActivity(), SongDetailContract.View {
+
 
     lateinit var artist: Artist
     lateinit var track: Track
@@ -102,6 +105,22 @@ class DetailActivity : AppCompatActivity(), SongDetailContract.View {
         }
         return genres
 
+    }
+
+    override fun showNetworkError() {
+        val dialog = AlertDialog.Builder(this)
+        dialog.setMessage(getString(R.string.network_disabled))
+        dialog.setPositiveButton(
+            getString(R.string.open_network_settings)
+        ) { _, _ ->
+            val myIntent = Intent(Settings.ACTION_WIFI_SETTINGS)
+            startActivity(myIntent)
+        }
+        dialog.setNegativeButton(
+            getString(R.string.close)
+        ) { _, _ ->
+        }
+        dialog.show()
     }
 
     /**

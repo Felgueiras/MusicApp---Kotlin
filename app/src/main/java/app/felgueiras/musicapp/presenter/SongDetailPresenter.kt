@@ -7,7 +7,7 @@ import app.felgueiras.musicapp.model.ModelCallback
 
 class SongDetailPresenter(
     val model: ModelContract
-) :  BasePresenter<SongDetailContract.View>(), SongDetailContract.Presenter {
+) : BasePresenter<SongDetailContract.View>(), SongDetailContract.Presenter {
 
 
     override fun getArtistDetail(mbid: String) {
@@ -20,8 +20,7 @@ class SongDetailPresenter(
 
             // 4
             override fun onError() {
-                // TODO - show error
-//                view?.showError()
+                view?.showNetworkError()
             }
         })
     }

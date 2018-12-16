@@ -9,6 +9,8 @@ interface SongDetailContract {
      */
     interface View {
         fun displayArtistInfo(artist: Artist)
+
+        fun showNetworkError()
     }
 
     /**
