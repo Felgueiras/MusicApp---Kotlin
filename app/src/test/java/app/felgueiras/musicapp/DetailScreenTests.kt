@@ -39,18 +39,38 @@ class DetailScreenTests {
 
 
     @Test
-    fun getSongsList_callsMakeAPICall() {
+    fun getArtistDetail_callsdisplayArtistInfo() {
 
         // mock makeAPICall method
         doAnswer {
             val callback: ModelCallback<Artist> = it.getArgument(2)
             callback.onSuccess(artist)
-        }.whenever(model).getArtistDetail(any(), eq(mbid),  any())
+        }.whenever(model).getArtistDetail(any(), eq(mbid), any())
 
         presenter.getArtistDetail(mbid)
 
-        verify(model).getArtistDetail(any(), eq(mbid),  any())
+        verify(model).getArtistDetail(any(), eq(mbid), any())
 
         verify(view).displayArtistInfo(eq(artist))
+    }
+
+    @Test
+    fun withoutNetwork_getArtistDetail_callsShowLocationError() {
+
+        // mock makeAPICall method
+        doAnswer {
+            val callback: ModelCallback<Artist> = it.getArgument(2)
+            callback.onError()
+        }.whenever(model).getArtistDetail(any(), eq(mbid), any())
+
+
+
+        presenter.getArtistDetail(mbid)
+
+        verify(model).getArtistDetail(any(), eq(mbid), any())
+
+        verify(view).showNetworkError()
+
+        verify(view, never()).displayArtistInfo(any())
     }
 }

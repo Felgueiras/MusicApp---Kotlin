@@ -1,6 +1,5 @@
 package app.felgueiras.musicapp
 
-import android.util.Log
 import app.felgueiras.musicapp.api.Track
 import app.felgueiras.musicapp.contracts.ModelContract
 import app.felgueiras.musicapp.contracts.SplashScreenContract
@@ -9,6 +8,7 @@ import app.felgueiras.musicapp.presenter.SplashScreenPresenter
 import com.nhaarman.mockito_kotlin.*
 import org.junit.Before
 import org.junit.Test
+
 
 class SplashScreenTests {
 
@@ -59,5 +59,25 @@ class SplashScreenTests {
         verify(model).getSongs(any(), eq(countryName), any())
 
         verify(view).goToSongsList(any(), any())
+
+        verify(view, never()).showNetworkError()
+    }
+
+    @Test
+    fun withoutNetwork_getSongsList_callsShowLocationError() {
+
+        // mock makeAPICall method
+        doAnswer {
+            val callback: ModelCallback<List<Track>> = it.getArgument(2)
+            callback.onError()
+        }.whenever(model).getSongs(any(), eq(countryName), any())
+
+        presenter.getSongsList(countryName)
+
+        verify(model).getSongs(any(), eq(countryName), any())
+
+        verify(view).showNetworkError()
+
+        verify(view, never()).goToSongsList(any(), any())
     }
 }

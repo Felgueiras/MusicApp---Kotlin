@@ -84,7 +84,7 @@ class SplashScreenPresenter(
             putExtra(Constants.LOCATION_DATA_EXTRA, lastLocation)
             putExtra(Constants.RECEIVER, resultReceiver)
         }
-        (view as Activity).startService(intent)
+        view!!.getViewActivity().startService(intent)
     }
 
     override fun onLocationPermissionsResult() {
