@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/artist_detail"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+    <TextView
+            android:id="@+id/bio"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="14sp"
+            android:text="Bio"
+            android:textStyle="bold"
+            android:layout_marginTop="8dp"/>
+
+    <TextView
+            android:id="@+id/similar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Similar artists"
+            android:textSize="12sp"
+            android:textStyle="bold"
+            android:layout_marginTop="8dp"
+    />
+
+    <GridView
+            android:layout_width="match_parent"
+            android:layout_height="310dp"
+            android:numColumns="auto_fit"
+            android:columnWidth="100dp"
+            android:verticalSpacing="10dp"
+            android:horizontalSpacing="10dp"
+            android:stretchMode="columnWidth"
+            android:adjustViewBounds="true"
+            android:gravity="center"
+            android:id="@+id/gridview"
+            android:scrollbars="none"
+            android:overScrollMode="never"
+            android:layout_marginTop="8dp"/>
+</LinearLayout>

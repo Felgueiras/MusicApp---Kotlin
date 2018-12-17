@@ -16,6 +16,8 @@ import android.support.v7.app.AlertDialog
 import android.view.View
 import app.felgueiras.musicapp.model.Model
 import com.bumptech.glide.Glide
+import kotlinx.android.synthetic.main.artist_detail.*
+import kotlinx.android.synthetic.main.view_loading.*
 
 
 class DetailActivity : AppCompatActivity(), SongDetailContract.View {
@@ -87,7 +89,8 @@ class DetailActivity : AppCompatActivity(), SongDetailContract.View {
         bio.visibility = View.VISIBLE
         genre.visibility = View.VISIBLE
         similar.visibility = View.VISIBLE
-        progressBar.visibility = View.GONE
+        loading_view.visibility = View.GONE
+        artist_detail.visibility = View.VISIBLE
         val bioSummary = artist.bio.summary.split("<a ")[0]
         bio.text = "Bio\n " + bioSummary + " ..."
         genre.text = buildGenresText(artist.tags.tag)
