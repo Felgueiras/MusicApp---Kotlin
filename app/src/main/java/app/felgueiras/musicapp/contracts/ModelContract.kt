@@ -6,11 +6,12 @@ import app.felgueiras.musicapp.model.ModelCallback
 
 
 /**
- * Methods to be implemented by the model.
+ * Methods to be implemented by the Model.
  */
 interface ModelContract {
 
     fun getSongs(presenter: Any?, parameter: String, callback: ModelCallback<List<Track>>)
+
     fun getArtistDetail(presenter: Any?, parameter: String, callback: ModelCallback<Artist>)
 
 

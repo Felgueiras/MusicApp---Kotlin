@@ -38,7 +38,6 @@
 
         <TextView
                 android:id="@+id/artistName"
-                android:transitionName="artistName"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Artist"
@@ -52,7 +51,6 @@
 
         <TextView
                 android:id="@+id/song"
-                android:transitionName="artistName"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Song"
@@ -65,7 +63,6 @@
 
         <TextView
                 android:id="@+id/duration"
-                android:transitionName="artistName"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Duration"
@@ -78,7 +75,6 @@
 
         <TextView
                 android:id="@+id/listeners"
-                android:transitionName="artistName"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Listeners"

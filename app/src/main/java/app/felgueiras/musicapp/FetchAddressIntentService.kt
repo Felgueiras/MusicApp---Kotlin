@@ -12,14 +12,13 @@ import app.felgueiras.musicapp.presenter.SplashScreenPresenter
 import java.io.IOException
 import java.util.*
 
+/**
+ * IntentService to handle Addresses, extract country.
+ */
 class FetchAddressIntentService : IntentService("FetchAddressIntentService") {
 
     private var receiver: ResultReceiver? = null
 
-    private fun deliverResultToReceiver(resultCode: Int, message: String) {
-        val bundle = Bundle().apply { putString(Constants.RESULT_DATA_KEY, message) }
-        receiver?.send(resultCode, bundle)
-    }
 
     override fun onHandleIntent(intent: Intent?) {
         intent ?: return
@@ -36,10 +35,10 @@ class FetchAddressIntentService : IntentService("FetchAddressIntentService") {
         var addresses: List<Address> = emptyList()
 
         try {
+            // get addresses from location
             addresses = geocoder.getFromLocation(
                 location.latitude,
                 location.longitude,
-                // In this sample, we get just a single address.
                 1
             )
         } catch (ioException: IOException) {
@@ -63,17 +62,18 @@ class FetchAddressIntentService : IntentService("FetchAddressIntentService") {
             }
             deliverResultToReceiver(Constants.FAILURE_RESULT, errorMessage)
         } else {
+            // send country name and code to receiver
             val address = addresses[0]
-            // Fetch the address lines using getAddressLine,
-            // join them, and send them to the thread.
-            val addressFragments = with(address) {
-                (0..maxAddressLineIndex).map { getAddressLine(it) }
-            }
             deliverResultToReceiver(
                 Constants.SUCCESS_RESULT,
                 "${address.countryName}-${address.countryCode}"
             )
         }
+    }
+
+    private fun deliverResultToReceiver(resultCode: Int, message: String) {
+        val bundle = Bundle().apply { putString(Constants.RESULT_DATA_KEY, message) }
+        receiver?.send(resultCode, bundle)
     }
 
 

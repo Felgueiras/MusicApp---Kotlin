@@ -1,6 +1,5 @@
 package app.felgueiras.musicapp.model
 
-import android.util.Log
 import app.felgueiras.musicapp.api.*
 import app.felgueiras.musicapp.contracts.ModelContract
 import okhttp3.OkHttpClient
@@ -15,23 +14,21 @@ import retrofit2.converter.gson.GsonConverterFactory
  */
 class Model(private val retrofit: Retrofit) : ModelContract {
 
+    // create Retrofit client
+    val client = retrofit.create(LastFMAPI::class.java)
 
     override fun getSongs(
         presenter: Any?, parameter: String,
         callback: ModelCallback<List<Track>>
     ) {
 
-        val client = retrofit.create(LastFMAPI::class.java)
-
-        var call: Call<LastFMResponse>? = client.getSongsByCountry(country = parameter)
-
-        // Execute the call asynchronously
+        // make API call
+        val call: Call<LastFMResponse>? = client.getSongsByCountry(country = parameter)
         call!!.enqueue(object : Callback<LastFMResponse> {
             override fun onResponse(call: Call<LastFMResponse>, response: Response<LastFMResponse>) {
 
-                // The network call was a success and we got a response
+                // network call was a success
                 val resp = response.body()
-
                 val tracks: Tracks = resp!!.tracks
                 val track = tracks.tracks
 
@@ -40,7 +37,7 @@ class Model(private val retrofit: Retrofit) : ModelContract {
 
             override fun onFailure(call: Call<LastFMResponse>, t: Throwable) {
                 /**
-                 *error making API call (most likely due to disabled internet connection)
+                 * error making API call (most likely due to disabled internet connection),
                  * propagate error to Presenter
                  */
                 callback.onError()
@@ -55,19 +52,13 @@ class Model(private val retrofit: Retrofit) : ModelContract {
         parameter: String,
         callback: ModelCallback<Artist>
     ) {
-
-        val client = retrofit.create(LastFMAPI::class.java)
-
-        var call: Call<LastFMResponse>? = client.getArtistInfo(mbid = parameter)
-
-
-        // Execute the call asynchronously
+        // make API call
+        val call: Call<LastFMResponse>? = client.getArtistInfo(mbid = parameter)
         call!!.enqueue(object : Callback<LastFMResponse> {
             override fun onResponse(call: Call<LastFMResponse>, response: Response<LastFMResponse>) {
 
-                // The network call was a success and we got a response
+                // network call was a success
                 val resp = response.body()
-
                 val artist: Artist = resp!!.artist
 
                 callback.onSuccess(artist)
@@ -75,7 +66,7 @@ class Model(private val retrofit: Retrofit) : ModelContract {
 
             override fun onFailure(call: Call<LastFMResponse>, t: Throwable) {
                 /**
-                 *error making API call (most likely due to disabled internet connection)
+                 *error making API call (most likely due to disabled internet connection),
                  * propagate error to Presenter
                  */
                 callback.onError()

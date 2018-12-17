@@ -1,7 +1,6 @@
 package app.felgueiras.musicapp.api
 
 import com.google.gson.annotations.SerializedName
-
 import java.io.Serializable
 
 /**
@@ -26,6 +25,22 @@ class Track : Serializable {
     class Rank : Serializable {
 
         var rank: Int = 0
+    }
+
+    override fun toString(): String {
+        return "Song: ${name}\nListeners: ${convertListeners()}\n"
+    }
+
+    fun convertListeners(): String {
+        if (listeners / 1000000 > 1) {
+            return String.format("%d M", listeners / 1000000);
+        } else {
+            return String.format("%d K", listeners / 1000);
+        }
+    }
+
+    fun convertDuration(): String {
+        return String.format("(%02d:%02d)", duration / 60, duration % 60);
     }
 
 }

@@ -8,6 +8,9 @@ import retrofit2.http.*
  */
 interface LastFMAPI {
 
+    /**
+     * Get list of top songs for a country.
+     */
     @GET("/2.0/")
     fun getSongsByCountry(
         @Query("method") method: String = "geo.gettoptracks",
@@ -16,6 +19,9 @@ interface LastFMAPI {
         @Query("country") country: String
     ): Call<LastFMResponse>
 
+    /**
+     * Get artist detail.
+     */
     @GET("/2.0/")
     fun getArtistInfo(
         @Query("method") method: String = "artist.getinfo",

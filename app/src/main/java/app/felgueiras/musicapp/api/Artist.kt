@@ -1,6 +1,7 @@
 package app.felgueiras.musicapp.api
 
 
+import com.google.gson.annotations.SerializedName
 import java.io.Serializable
 
 
@@ -13,18 +14,36 @@ class Artist : Serializable {
         return "Artist: ${name!!}\nBio: ${bio.summary}"
     }
 
+    /**
+     * Name.
+     */
     var name: String? = null
 
+    /**
+     * Unique ID
+     */
     lateinit var mbid: String
 
-    lateinit var image: List<ImageInfo>
+    /**
+     * Images (different sizes)
+     */
+    @SerializedName("image")
+    lateinit var images: List<ImageInfo>
 
-    lateinit var stats: Stats
 
+    /**
+     * Similar artists.
+     */
     lateinit var similar: Similar
 
+    /**
+     * Tags (genres)
+     */
     lateinit var tags: Tags
 
+    /**
+     * Biography.
+     */
     lateinit var bio: Bio
 
     inner class Similar : Serializable {
@@ -34,27 +53,28 @@ class Artist : Serializable {
 
     inner class Bio : Serializable {
 
+        /**
+         * Resumed bio.
+         */
         lateinit var summary: String
+
+        /**
+         * Full bio.
+         */
         lateinit var content: String
     }
 
     inner class Tags : Serializable {
-
 
         lateinit var tag: List<Tag>
     }
 
     inner class Tag : Serializable {
 
+        /**
+         * Genre.
+         */
         lateinit var name: String
-    }
-
-
-    inner class Stats : Serializable {
-
-        var listeners: Int = 0
-
-        var playcount: Int = 0
     }
 
 }

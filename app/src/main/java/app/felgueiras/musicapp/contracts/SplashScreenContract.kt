@@ -5,6 +5,9 @@ import android.location.Location
 import app.felgueiras.musicapp.api.Track
 
 
+/**
+ * Methods to be implemented in Splash Screen.
+ */
 interface SplashScreenContract {
 
     /**

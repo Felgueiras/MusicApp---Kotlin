@@ -1,4 +1,4 @@
-package app.felgueiras.musicapp.view
+package app.felgueiras.musicapp.view.adapters
 
 import android.app.Activity
 import android.content.Context
@@ -13,6 +13,7 @@ import app.felgueiras.musicapp.api.Track
 import android.support.v4.app.ActivityOptionsCompat
 import android.widget.ImageView
 import app.felgueiras.musicapp.Constants
+import app.felgueiras.musicapp.view.DetailActivity
 import com.bumptech.glide.Glide
 
 

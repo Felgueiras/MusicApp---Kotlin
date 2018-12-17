@@ -54,8 +54,7 @@ class SplashScreenActivity : AppCompatActivity(), SplashScreenContract.View {
 
             // Animate the content view to 100% opacity
             animate()
-                .alpha(1f)
-                .setDuration(1000L)
+                .alpha(1f).duration = 1000L
         }
     }
 
@@ -148,6 +147,7 @@ class SplashScreenActivity : AppCompatActivity(), SplashScreenContract.View {
      */
     override fun onDestroy() {
         super.onDestroy()
+        // detach View from Presenter
         presenter.detachView()
     }
 

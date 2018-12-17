@@ -19,6 +19,10 @@ import app.felgueiras.musicapp.contracts.ModelContract
 import app.felgueiras.musicapp.contracts.SplashScreenContract
 import app.felgueiras.musicapp.model.ModelCallback
 
+
+/**
+ * Handle Splash Screen.
+ */
 class SplashScreenPresenter(
     val model: ModelContract
 ) : BasePresenter<SplashScreenContract.View>(), SplashScreenContract.Presenter {
@@ -33,18 +37,27 @@ class SplashScreenPresenter(
      */
     private lateinit var resultReceiver: AddressResultReceiver
 
+    /**
+     * User's country (from current location)
+     */
+    lateinit var countryName: String
+
 
     override fun requestLocationPermission() {
+        // responsible for handling addresses
         resultReceiver = AddressResultReceiver(Handler())
+        // check location permission
         if (view?.getViewActivity()!!.checkSelfPermission(
                 Manifest.permission.ACCESS_FINE_LOCATION
             ) != PackageManager.PERMISSION_GRANTED
         ) {
+            // not granted, request
             view?.getViewActivity()!!.requestPermissions(
                 arrayOf(Manifest.permission.ACCESS_FINE_LOCATION),
                 Constants.REQUEST_PERMISSION
             )
         } else {
+            // already granted, listen for location changes
             onLocationPermissionsResult()
         }
     }
@@ -75,15 +88,16 @@ class SplashScreenPresenter(
     }
 
     override fun onLocationPermissionsResult() {
-
+        // show loading progress bar
         view!!.waitingLocation()
 
         Handler().postDelayed({
-
+            // create LocationManager
             locationManager =
-                    (view as Activity).getSystemService(AppCompatActivity.LOCATION_SERVICE) as LocationManager;
+                    view!!.getViewActivity().getSystemService(AppCompatActivity.LOCATION_SERVICE) as LocationManager;
             try {
-                // Request current location
+
+                // Request current location (network)
                 locationManager.requestLocationUpdates(
                     LocationManager.NETWORK_PROVIDER,
                     0L,
@@ -91,7 +105,6 @@ class SplashScreenPresenter(
                     locationListener
                 );
             } catch (ex: SecurityException) {
-                Log.d("myTag", "Security Exception, no location available");
             }
 
             // check if location/network enabled
@@ -112,7 +125,6 @@ class SplashScreenPresenter(
 
         }, 1500L)
 
-
     }
 
 
@@ -120,33 +132,36 @@ class SplashScreenPresenter(
      * Get songs list from Model
      */
     fun getSongsList(country: String) {
-        model.getSongs(this as Object, country, object : ModelCallback<List<Track>> {
+        model.getSongs(this as Any, country, object : ModelCallback<List<Track>> {
             override fun onSuccess(tracks: List<Track>?) {
+                // navigate to songs list
                 view?.goToSongsList(ArrayList(tracks), countryName)
             }
 
             override fun onError() {
+                // show internet connection disabled error
                 view?.showNetworkError()
             }
         })
     }
 
-    lateinit var countryName: String
 
-
+    /**
+     * Handle addresses.
+     */
     internal inner class AddressResultReceiver(handler: Handler) : ResultReceiver(handler) {
 
         override fun onReceiveResult(resultCode: Int, resultData: Bundle?) {
 
             val countryInfo = resultData?.getString(Constants.RESULT_DATA_KEY) ?: ""
 
+            // successful request
             if (resultCode == Constants.SUCCESS_RESULT) {
                 // cancel location listener
                 locationManager.removeUpdates(locationListener)
                 // display country info
                 countryName = countryInfo.split("-")[0]
                 val countryCode = countryInfo.split("-")[1]
-
                 val countryFlagURL = "https://www.countryflags.io/${countryCode}/flat/64.png"
                 view!!.showCountryInfo(countryFlagURL, "Loading top songs for ${countryName}");
 

@@ -9,8 +9,14 @@ import java.io.Serializable
  */
 class ImageInfo : Serializable {
 
+    /**
+     * Image url.
+     */
     @SerializedName("#text")
     var url: String? = null
 
+    /**
+     * Size (small, medium, large, extralarge)
+     */
     var size: String? = null
 }
