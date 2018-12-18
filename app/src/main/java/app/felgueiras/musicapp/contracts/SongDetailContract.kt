@@ -1,6 +1,7 @@
 package app.felgueiras.musicapp.contracts
 
 import app.felgueiras.musicapp.api.Artist
+import app.felgueiras.musicapp.api.Track
 
 
 /**
@@ -16,12 +17,21 @@ interface SongDetailContract {
         fun displayArtistInfo(artist: Artist)
 
         fun showNetworkError()
+
+        fun displayFullBio()
+
+        fun shareData(string: String)
     }
 
     /**
      * Operations offered from Presenter to View
      */
     interface Presenter {
-        fun getArtistDetail(mbid: String)
+
+        fun getArtistDetail(track: Track)
+
+        fun bioTextClicked()
+
+        fun handleShare()
     }
 }

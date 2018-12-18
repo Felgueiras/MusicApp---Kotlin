@@ -51,7 +51,7 @@ class Artist : Serializable {
         lateinit var artist: List<Artist>
     }
 
-    inner class Bio : Serializable {
+    class Bio : Serializable {
 
         /**
          * Resumed bio.

@@ -24,6 +24,7 @@ import kotlinx.android.synthetic.main.view_loading.*
  */
 class DetailActivity : AppCompatActivity(), SongDetailContract.View {
 
+
     /**
      * Selected Artist.
      */
@@ -57,10 +58,10 @@ class DetailActivity : AppCompatActivity(), SongDetailContract.View {
         }
         // millions / thousands
         val listenersCount = track.listeners
-        listeners.text = "Listeners: " +track.convertListeners()
+        listeners.text = "Listeners: " + track.convertListeners()
 
         // get Artist detail from Presenter
-        presenter.getArtistDetail(track.artist.mbid)
+        presenter.getArtistDetail(track)
 
         // trigger shared element transition (artist photo)
         artistPhoto.setTransitionName("artist")
@@ -68,14 +69,23 @@ class DetailActivity : AppCompatActivity(), SongDetailContract.View {
 
         // handle FAB click
         share.setOnClickListener {
-            // start share intent
-            val sendIntent: Intent = Intent().apply {
-                action = Intent.ACTION_SEND
-                putExtra(Intent.EXTRA_TEXT, track.toString() + artist.toString())
-                type = "text/plain"
-            }
-            startActivity(sendIntent)
+            presenter.handleShare()
         }
+    }
+
+    override fun shareData(shareContent: String){
+        // start share intent
+        val sendIntent: Intent = Intent().apply {
+            action = Intent.ACTION_SEND
+            putExtra(Intent.EXTRA_TEXT, shareContent)
+            type = "text/plain"
+        }
+        startActivity(sendIntent)
+
+    }
+
+    private fun removeLink(string: String): String {
+        return string.split("<a ")[0]
     }
 
 
@@ -90,11 +100,18 @@ class DetailActivity : AppCompatActivity(), SongDetailContract.View {
         loading_view.visibility = View.GONE
         artist_detail.visibility = View.VISIBLE
         // remove <a> link to Last.fm from summary
-        val bioSummary = artist.bio.summary.split("<a ")[0]
-        bio.text = "Bio\n " + bioSummary + " ..."
+        bio.text = removeLink(artist.bio.summary) + " ..."
         genre.text = buildGenresText(artist.tags.tag)
         // pass similar artists to Grid adapter
         gridview.adapter = SimilarArtistsAdapter(this, artist.similar.artist)
+
+        bio.setOnClickListener {
+            presenter.bioTextClicked()
+        }
+    }
+
+    override fun displayFullBio() {
+        bio.text = removeLink(artist.bio.content)
     }
 
     /**
