@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
         xmlns:android="http://schemas.android.com/apk/res/android"
-        android:id="@+id/artist_detail"
+        android:id="@+id/artistDetailLayout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:orientation="vertical">
 
     <TextView
@@ -20,9 +20,16 @@
             android:layout_height="wrap_content"
             android:textSize="14sp"
             android:text="bio text"
-            android:textStyle="bold"
-            android:layout_marginTop="8dp"/>
+    />
 
+    <TextView
+            android:text="Read more"
+            android:textSize="14sp"
+            android:textStyle="bold"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/readMore"
+            android:textColor="@color/design_default_color_primary"/>
     <TextView
             android:id="@+id/similar"
             android:layout_width="wrap_content"

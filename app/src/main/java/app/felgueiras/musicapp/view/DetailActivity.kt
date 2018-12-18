@@ -17,6 +17,7 @@ import app.felgueiras.musicapp.view.adapters.SimilarArtistsAdapter
 import com.bumptech.glide.Glide
 import kotlinx.android.synthetic.main.activity_detail.*
 import kotlinx.android.synthetic.main.artist_detail.*
+import kotlinx.android.synthetic.main.song_info.*
 import kotlinx.android.synthetic.main.view_loading.*
 
 /**
@@ -98,20 +99,21 @@ class DetailActivity : AppCompatActivity(), SongDetailContract.View {
 
         // hide loading, show artist detail
         loading_view.visibility = View.GONE
-        artist_detail.visibility = View.VISIBLE
+        artistDetailLayout.visibility = View.VISIBLE
         // remove <a> link to Last.fm from summary
-        bio.text = removeLink(artist.bio.summary) + " ..."
+        bio.text = removeLink(artist.bio.summary)
         genre.text = buildGenresText(artist.tags.tag)
         // pass similar artists to Grid adapter
         gridview.adapter = SimilarArtistsAdapter(this, artist.similar.artist)
 
-        bio.setOnClickListener {
+        readMore.setOnClickListener {
             presenter.bioTextClicked()
         }
     }
 
     override fun displayFullBio() {
         bio.text = removeLink(artist.bio.content)
+        readMore.visibility = View.GONE
     }
 
     /**
