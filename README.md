@@ -11,5 +11,6 @@ This app uses a Model View Presenter (MVP) architecture.
 - [Glide](https://bumptech.github.io/glide/): image loading and caching
 - [Mockito](https://site.mockito.org/): mocking framework for unit tests in Java
 - [mockito-kotlin](https://github.com/nhaarman/mockito-kotlin): A small library that provides helper functions to work with Mockito in Kotlin
+- [MockWebServer](https://github.com/square/okhttp/tree/master/mockwebserver): A scriptable web server for testing HTTP clients
 
 
